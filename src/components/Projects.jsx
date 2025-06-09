@@ -30,6 +30,14 @@ const projectData = [
         repo: 'https://github.com/erick-caballero/blackjack',
         image: '/blackjack.jpg'
     },
+    {
+        title: 'Voxel Editor',
+        description: 'A web app that allows you to create and edit Voxels (3D Pixel Art) with basic tools.',
+        tags: ['HTML', 'CSS', 'JS', 'Three.js'],
+        link: 'https://erick-caballero.github.io/voxeleditor/',
+        repo: 'https://github.com/erick-caballero/voxeleditor',
+        image: '/voxeleditor.jpg'
+    },
     // Add more projects
 ];
 
