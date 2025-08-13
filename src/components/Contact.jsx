@@ -1,9 +1,105 @@
 // src/components/Contact.jsx
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, Mail, Linkedin, Github } from 'lucide-react'; // Added Mail, Linkedin, Github
+import { motion, AnimatePresence } from 'framer-motion';
+import { Send, Mail, Linkedin, Github, CheckCircle2, XCircle, Loader2 } from 'lucide-react'; // Added Mail, Linkedin, Github
 import Input from './ui/Input';
 import Textarea from './ui/Textarea';
+
+function Modal({ open, onClose, tone = 'info', title, message }) {
+    const toneStyles = {
+        success: {
+            ring: 'ring-blue-600/20 dark:ring-green-600/20',
+            bg: 'bg-white/85 dark:bg-gray-900/85',
+            badge: 'bg-blue-100 text-blue-700 dark:bg-green-900/60 dark:text-green-200',
+            icon: <CheckCircle2 className="w-7 h-7" />,
+            accent: 'from-blue-500/40 via-indigo-500/40 to-blue-500/40 dark:from-green-500/40 dark:via-emerald-500/40 dark:to-green-500/40',
+        },
+        error: {
+            ring: 'ring-red-600/20',
+            bg: 'bg-white/85 dark:bg-gray-900/85',
+            badge: 'bg-red-100 text-red-700 dark:bg-red-900/60 dark:text-red-200',
+            icon: <XCircle className="w-7 h-7" />,
+            accent: 'from-red-500/40 via-rose-500/40 to-red-500/40',
+        },
+        info: {
+            ring: 'ring-blue-600/20',
+            bg: 'bg-white/85 dark:bg-gray-900/85',
+            badge: 'bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-200',
+            icon: <Loader2 className="w-7 h-7 animate-spin" />,
+            accent: 'from-blue-500/40 via-indigo-500/40 to-blue-500/40',
+        },
+    }[tone];
+
+    React.useEffect(() => {
+        if (!open) return;
+        const onKey = (e) => e.key === 'Escape' && onClose?.();
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [open, onClose]);
+
+    return (
+        <AnimatePresence>
+            {open && (
+                <motion.div
+                    className="fixed inset-0 z-[100] flex items-center justify-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    aria-modal="true"
+                    role="dialog"
+                >
+                    {/* Backdrop */}
+                    <motion.div
+                        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                        onClick={onClose}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                    />
+
+                    {/* Card */}
+                    <motion.div
+                        className={`relative mx-4 w-full max-w-xl rounded-2xl ${toneStyles.bg} shadow-2xl ring-1 ${toneStyles.ring} border border-white/10 dark:border-white/5 overflow-hidden`}
+                        initial={{ y: 18, scale: 0.98, opacity: 0 }}
+                        animate={{ y: 0, scale: 1, opacity: 1 }}
+                        exit={{ y: 8, scale: 0.98, opacity: 0 }}
+                        transition={{ type: 'spring', stiffness: 240, damping: 22 }}
+                    >
+                        <div
+                            className={`pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r ${toneStyles.accent}`}
+                            style={{ transform: 'scaleY(0.5) translateY(0)' }}
+                        />
+
+                        <div className="p-7 sm:p-8">
+                            <div className="flex items-start gap-5">
+                                <div className={`inline-flex items-center justify-center rounded-full p-2.5 ${toneStyles.badge}`}>
+                                    {toneStyles.icon}
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{title}</h3>
+                                    {message && (
+                                        <p className="mt-2 text-base leading-relaxed text-gray-700 dark:text-gray-300">
+                                            {message}
+                                        </p>
+                                    )}
+                                </div>
+                                <button
+                                    onClick={onClose}
+                                    className="rounded-full p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    aria-label="Close dialog"
+                                >
+                                    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M18 6 6 18M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
+}
 
 function Contact() {
     const [form, setForm] = useState({ name: '', email: '', message: '', _gotcha: '' });
@@ -52,10 +148,18 @@ function Contact() {
             console.error('Failed to send message:', error);
             setStatus({
                 type: 'error',
-                message: error.message || 'Oops! Failed to send message. Please try again later.'
+                message: error.message || 'Failed to send message. Please try again later.'
             });
         }
     };
+
+    // Auto-dismiss modal
+    React.useEffect(() => {
+        if (status.type === 'sent' || status.type === 'error') {
+            const t = setTimeout(() => setStatus({ type: '', message: '' }), 2400);
+            return () => clearTimeout(t);
+        }
+    }, [status.type]);
 
     const contactInfo = [
         {
@@ -80,7 +184,7 @@ function Contact() {
 
     return (
         <section id="contact" className="py-24 bg-gray-100 dark:bg-gray-800/30 rounded-3xl scroll-mt-28 md:scroll-mt-36">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> {/* Increased max-width for two columns */}
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.h2
                     className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-16 md:mb-20 text-gray-900 dark:text-white"
                     initial={{ opacity: 0, y: -30 }}
@@ -92,7 +196,7 @@ function Contact() {
                 </motion.h2>
 
                 <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
-                    {/* Left Column: Contact Information & CTA */}
+                    {/* Left: Contact Information*/}
                     <motion.div
                         className="space-y-8"
                         initial={{ opacity: 0, x: -50 }}
@@ -126,15 +230,14 @@ function Contact() {
                             ))}
                         </div>
                     </motion.div>
-
                     {/* Right Column: Contact Form */}
                     <motion.form
                         onSubmit={handleSubmit}
                         className="bg-white dark:bg-gray-800 p-8 sm:p-10 rounded-2xl shadow-2xl space-y-8 border border-gray-200 dark:border-gray-700/80 w-full"
-                        initial={{ opacity: 0, x: 50 }} // Changed y to x for different entry animation
+                        initial={{ opacity: 0, x: 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, amount: 0.1 }}
-                        transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }} // Can have a slightly different delay
+                        transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }} // ease out delay
                     >
                         <div>
                             <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Name</label>
@@ -179,22 +282,18 @@ function Contact() {
                             )}
                         </button>
 
-                        {status.message && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className={`p-4 rounded-lg text-sm text-center font-medium
-                  ${status.type === 'sent' ? 'bg-green-100 dark:bg-green-900/70 text-green-700 dark:text-green-200 border border-green-200 dark:border-green-700' : ''}
-                  ${status.type === 'error' ? 'bg-red-100 dark:bg-red-900/70 text-red-700 dark:text-red-200 border border-red-200 dark:border-red-700' : ''}
-                  ${status.type === 'sending' ? 'bg-blue-100 dark:bg-blue-900/70 text-blue-700 dark:text-blue-200 border border-blue-200 dark:border-blue-700' : ''}
-                `}
-                            >
-                                {status.message}
-                            </motion.div>
-                        )}
                     </motion.form>
                 </div>
             </div>
+
+            {/* Modal controlled by status */}
+            <Modal
+                open={Boolean(status.type)}
+                onClose={() => setStatus({ type: '', message: '' })}
+                tone={status.type === 'sent' ? 'success' : status.type === 'error' ? 'error' : 'info'}
+                title={status.type === 'sent' ? 'Message sent!' : status.type === 'error' ? 'Something went wrong' : 'Sending…'}
+                message={status.message}
+            />
         </section>
     );
 }
