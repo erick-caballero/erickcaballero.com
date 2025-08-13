@@ -36,7 +36,7 @@ function Contact() {
             icon: <Mail size={24} className="text-blue-600 dark:text-blue-400" />,
             label: "Email Me",
             value: "me@erickcaballero.com",
-            href: "mailto:your.email@example.com",
+            href: "mailto:me@erickcaballero.com",
         },
         {
             icon: <Linkedin size={24} className="text-blue-600 dark:text-blue-400" />,
