@@ -24,7 +24,7 @@ function Hero() {
                 className="z-10"
             >
                 <img
-                    src="public/portfolio%20pic.jpg"
+                    src="portfoliopic.jpg"
                     alt="Rick - Profile Picture"
                     className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full mx-auto mb-6 shadow-2xl border-4 border-white dark:border-gray-800 transform hover:scale-105 transition-transform duration-300"
                     onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/192x192/cccccc/333333?text=R'; }}

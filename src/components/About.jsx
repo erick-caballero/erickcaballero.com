@@ -33,7 +33,7 @@ function About() {
                         transition={{ type: "spring", stiffness: 100, delay: 0.2, duration: 0.5 }}
                     >
                         <img
-                            src="public/portfolio%20pic.jpg"
+                            src="portfoliopic.jpg"
                             alt="Rick - About Me"
                             className="w-48 h-48 md:w-56 md:h-56 object-cover rounded-full shadow-2xl border-4 border-white dark:border-gray-700 hover:scale-105 transition-transform duration-300"
                             onError={(e) => {
