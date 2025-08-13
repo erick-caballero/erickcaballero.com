@@ -58,7 +58,7 @@ function Projects() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
             >
-                My <span className="text-blue-600 dark:text-blue-400">Creations</span>
+                My <span className="text-blue-600 dark:text-blue-400">Projects</span>
             </motion.h2>
             <div className="flex justify-center mb-16">
                 <Input

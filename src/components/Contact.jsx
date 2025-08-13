@@ -35,8 +35,8 @@ function Contact() {
         {
             icon: <Mail size={24} className="text-blue-600 dark:text-blue-400" />,
             label: "Email Me",
-            value: "me@erickcaballero.com", // Replace with your actual email
-            href: "mailto:your.email@example.com", // Replace with your actual email
+            value: "me@erickcaballero.com",
+            href: "mailto:your.email@example.com",
         },
         {
             icon: <Linkedin size={24} className="text-blue-600 dark:text-blue-400" />,
@@ -53,7 +53,7 @@ function Contact() {
     ];
 
     return (
-        <section id="contact" className="py-24 bg-gray-100 dark:bg-gray-800/30 rounded-3xl">
+        <section id="contact" className="py-24 bg-gray-100 dark:bg-gray-800/30 rounded-3xl scroll-mt-28 md:scroll-mt-36">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> {/* Increased max-width for two columns */}
                 <motion.h2
                     className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-16 md:mb-20 text-gray-900 dark:text-white"
@@ -77,8 +77,7 @@ function Contact() {
                         <div>
                             <h3 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Get In Touch!</h3>
                             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                                Have a project in mind, a question, or just want to say hi? I'd love to hear from you! I'm always open to discussing new
-                                ideas or opportunities to be part of something exciting.
+                                Have a project in mind, a question, or just want to say hi? I'd love to hear from you! I'm always open to be part of something exciting.
                             </p>
                         </div>
                         <div className="space-y-6">

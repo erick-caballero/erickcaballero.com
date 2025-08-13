@@ -45,7 +45,7 @@ function SkillsAndExperience() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
             >
-                My <span className="text-blue-600 dark:text-blue-400">Toolkit & Journey</span>
+                <span className="text-blue-600 dark:text-blue-400">Toolkit & Experience</span>
             </motion.h2>
 
             <div>

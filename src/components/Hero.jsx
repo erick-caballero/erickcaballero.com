@@ -24,7 +24,7 @@ function Hero() {
                 className="z-10"
             >
                 <img
-                    src="https://media.licdn.com/dms/image/v2/D4E03AQEVQ9c6wRcRwA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1721679828327?e=1753920000&v=beta&t=Ce1JRWQj7W6Rm1dvhXU775lZnf6k_ASqNkgdWJET1kM"
+                    src="public/portfolio%20pic.jpg"
                     alt="Rick - Profile Picture"
                     className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full mx-auto mb-6 shadow-2xl border-4 border-white dark:border-gray-800 transform hover:scale-105 transition-transform duration-300"
                     onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/192x192/cccccc/333333?text=R'; }}
@@ -45,7 +45,7 @@ function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.5 }}
             >
-                A dedicated <strong className="font-semibold text-gray-800 dark:text-gray-100">Computer Science student</strong> at Georgia Tech, building efficient, creative, and user-focused solutions through clean and thoughful code.
+                A dedicated <strong className="font-semibold text-gray-800 dark:text-gray-100">Computer Science student</strong> at Georgia Tech, building efficient, creative, and user-focused solutions through clean and thoughtful code.
             </motion.p>
             <motion.div
                 className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 z-10"
