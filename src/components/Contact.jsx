@@ -138,15 +138,15 @@ function Contact() {
                     >
                         <div>
                             <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Name</label>
-                            <Input id="name" name="name" value={form.name} placeholder="e.g., Justin Time" required onChange={handleChange} className="w-full" />
+                            <Input id="name" name="name" value={form.name} placeholder="e.g., Justin Time" required onChange={handleChange} className="w-full text-black" />
                         </div>
                         <div>
                             <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Email Address</label>
-                            <Input id="email" name="email" type="email" value={form.email} placeholder="you@example.com" required onChange={handleChange} className="w-full" />
+                            <Input id="email" name="email" type="email" value={form.email} placeholder="you@example.com" required onChange={handleChange} className="w-full text-black" />
                         </div>
                         <div>
                             <label htmlFor="message" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Message</label>
-                            <Textarea id="message" name="message" value={form.message} rows={5} placeholder="Hi Erick, we'd like to offer you a job—or whatever your message is." required onChange={handleChange} className="w-full"></Textarea> {/* Reduced rows slightly as an option */}
+                            <Textarea id="message" name="message" value={form.message} rows={5} placeholder="Hi Erick, we'd like to offer you a job—or whatever your message is." required onChange={handleChange} className="w-full text-black"></Textarea> {/* Reduced rows slightly as an option */}
                         </div>
                         <input
                             type="text"
