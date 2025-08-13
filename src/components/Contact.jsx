@@ -6,7 +6,7 @@ import Input from './ui/Input';
 import Textarea from './ui/Textarea';
 
 function Contact() {
-    const [form, setForm] = useState({ name: '', email: '', message: '' });
+    const [form, setForm] = useState({ name: '', email: '', message: '', _gotcha: '' });
     const [status, setStatus] = useState({ type: '', message: '' });
 
     const handleChange = e => {
@@ -14,20 +14,46 @@ function Contact() {
         if (status.message) setStatus({ type: '', message: '' });
     };
 
-    const handleSubmit = async e => {
+    const FORMSPREE_URL = "https://formspree.io/f/movlbqjy";
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus({ type: 'sending', message: 'Sending your message...' });
+
         try {
-            console.log('Form data to submit:', form);
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            if (form.email.includes('error@example.com')) {
-                throw new Error("This is a test error. Please use a different email.");
+            const res = await fetch(FORMSPREE_URL, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',         // tells Formspree we want JSON back
+                    'Content-Type': 'application/json',   // sending JSON
+                },
+                body: JSON.stringify({
+                    name: form.name,
+                    email: form.email,
+                    message: form.message,
+                    _gotcha: form._gotcha
+                }),
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+
+                const errMsg = data?.errors?.[0]?.message || data?.message || 'Failed to send';
+                throw new Error(errMsg);
             }
-            setStatus({ type: 'sent', message: 'Message sent successfully! Thanks for reaching out. I\'ll get back to you soon.' });
+
+            setStatus({
+                type: 'sent',
+                message: "Message sent successfully! I'll get back to you soon."
+            });
             setForm({ name: '', email: '', message: '' });
         } catch (error) {
             console.error('Failed to send message:', error);
-            setStatus({ type: 'error', message: error.message || 'Oops! Failed to send message. Please try again later.' });
+            setStatus({
+                type: 'error',
+                message: error.message || 'Oops! Failed to send message. Please try again later.'
+            });
         }
     };
 
@@ -122,7 +148,15 @@ function Contact() {
                             <label htmlFor="message" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Message</label>
                             <Textarea id="message" name="message" value={form.message} rows={5} placeholder="Hi Erick, we'd like to offer you a job—or whatever your message is." required onChange={handleChange} className="w-full"></Textarea> {/* Reduced rows slightly as an option */}
                         </div>
-
+                        <input
+                            type="text"
+                            name="_gotcha"
+                            value={form._gotcha}
+                            onChange={handleChange}
+                            style={{ display: 'none' }}
+                            tabIndex={-1}
+                            autoComplete="off"
+                        />
                         <button
                             type="submit"
                             disabled={status.type === 'sending'}
