@@ -6,16 +6,14 @@ import { motion } from 'framer-motion';
 function Hero() {
     return (
         <section id="hero" className="min-h-screen flex flex-col items-center justify-center text-center py-20 pt-28 md:pt-20 space-y-10 relative overflow-hidden">
-            <motion.div
-                className="absolute top-1/5 left-1/5 w-40 h-40 bg-blue-400 dark:bg-blue-600 rounded-full opacity-20 dark:opacity-15 filter blur-2xl"
-                animate={{ scale: [1, 1.1, 1], x: [0, 30, 0], y: [0, -30, 0] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-                className="absolute bottom-1/5 right-1/5 w-32 h-32 bg-purple-400 dark:bg-purple-600 rounded-full opacity-20 dark:opacity-15 filter blur-2xl"
-                animate={{ scale: [1, 0.9, 1], x: [0, -25, 0], y: [0, 25, 0] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            />
+            <div className="absolute top-0 left-0 w-full h-full" style={{
+                background: `
+                    radial-gradient(circle at 15% 25%, rgba(66, 153, 225, 0.15), transparent 30%),
+                    radial-gradient(circle at 85% 75%, rgba(159, 122, 234, 0.15), transparent 30%)
+                `,
+                filter: 'blur(40px)',
+                transform: 'translateZ(0)' // Promotes the element to its own compositing layer
+            }}></div>
 
             <motion.div
                 initial={{ opacity: 0, scale:0.8 }}
