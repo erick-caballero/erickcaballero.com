@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Mail, Linkedin, Github, ArrowRight, Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { Send, Loader2, CheckCircle2, XCircle, ArrowUpRight, Github, Linkedin } from 'lucide-react';
 
 export default function Contact() {
     const [form, setForm] = useState({ name: '', email: '', message: '', _gotcha: '' });
     const [status, setStatus] = useState({ type: '', message: '' });
-    const [focusedField, setFocusedField] = useState(null);
 
     const handleChange = e => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,7 +15,7 @@ export default function Contact() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setStatus({ type: 'sending', message: 'Sending your message...' });
+        setStatus({ type: 'sending', message: 'Sending...' });
 
         try {
             const res = await fetch(FORMSPREE_URL, {
@@ -28,175 +27,116 @@ export default function Contact() {
                 body: JSON.stringify(form),
             });
 
-            const data = await res.json().catch(() => ({}));
-
-            if (!res.ok) {
-                const errMsg = data?.errors?.[0]?.message || data?.message || 'Failed to send';
-                throw new Error(errMsg);
-            }
+            if (!res.ok) throw new Error('Transmission failed');
 
             setStatus({
                 type: 'sent',
-                message: "Message sent successfully! I'll get back to you soon."
+                message: "Message received. I'll get back to you soon."
             });
             setForm({ name: '', email: '', message: '', _gotcha: '' });
         } catch (error) {
-            console.error('Failed to send message:', error);
             setStatus({
                 type: 'error',
-                message: error.message || 'Failed to send message. Please try again later.'
+                message: 'Something went wrong. Please try again.'
             });
         }
     };
 
-    const inputClasses = "w-full bg-transparent border-b-2 border-gray-200 dark:border-gray-700 py-4 text-xl md:text-2xl focus:outline-none focus:border-light-primary dark:focus:border-dark-primary transition-colors placeholder-gray-300 dark:placeholder-gray-600";
-    const labelClasses = "block text-sm font-bold text-gray-400 uppercase tracking-wider mb-2";
+    const inputClasses = "w-full bg-transparent border-b-2 border-white/20 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-dark-accent transition-all text-2xl font-medium";
 
     return (
-        <section id="contact" className="py-20 md:py-32 relative">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-                        Let's start a <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-light-primary to-light-accent dark:from-dark-primary dark:to-dark-accent">
-                            Conversation
-                        </span>
-                    </h2>
-                    <p className="text-xl text-gray-600 dark:text-gray-400">
-                        Have a project in mind? I'd love to help you build it.
-                    </p>
-                </motion.div>
+        <section className="h-full flex flex-col justify-center py-10 relative overflow-hidden pl-12 md:pl-0">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid lg:grid-cols-2 gap-16 items-center">
 
-                <div className="grid md:grid-cols-[1fr,auto] gap-12 md:gap-20">
-                    <motion.form
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        onSubmit={handleSubmit}
-                        className="space-y-12"
-                    >
-                        <div className="relative">
-                            <label htmlFor="name" className={labelClasses}>What's your name?</label>
+                {/* Text Side */}
+                <div className="space-y-12">
+                    <h2 className="text-6xl md:text-8xl font-bold text-white tracking-tight leading-none">
+                        Let's <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-dark-accent to-white">Collaborate.</span>
+                    </h2>
+
+                    <div className="space-y-8">
+                        <a
+                            href="mailto:me@erickcaballero.com"
+                            className="inline-flex items-center gap-3 text-3xl md:text-4xl text-white hover:text-dark-accent transition-colors group font-medium"
+                        >
+                            me@erickcaballero.com
+                            <ArrowUpRight size={32} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                        </a>
+
+                        <div className="flex gap-8">
+                            <a href="https://github.com/erick-caballero" target="_blank" className="text-gray-500 hover:text-white text-sm uppercase tracking-widest transition-colors font-bold">Github</a>
+                            <a href="https://www.linkedin.com/in/erickcaballero2/" target="_blank" className="text-gray-500 hover:text-white text-sm uppercase tracking-widest transition-colors font-bold">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Form Side */}
+                <div className="bg-dark-surface/50 p-10 rounded-[3rem] border border-white/5 backdrop-blur-sm">
+                    <form onSubmit={handleSubmit} className="space-y-10">
+                        <div>
                             <input
                                 type="text"
-                                id="name"
                                 name="name"
                                 value={form.name}
                                 onChange={handleChange}
-                                onFocus={() => setFocusedField('name')}
-                                onBlur={() => setFocusedField(null)}
-                                placeholder="John Doe"
                                 required
                                 className={inputClasses}
+                                placeholder="Your Name"
                             />
                         </div>
-
-                        <div className="relative">
-                            <label htmlFor="email" className={labelClasses}>What's your email?</label>
+                        <div>
                             <input
                                 type="email"
-                                id="email"
                                 name="email"
                                 value={form.email}
                                 onChange={handleChange}
-                                onFocus={() => setFocusedField('email')}
-                                onBlur={() => setFocusedField(null)}
-                                placeholder="john@example.com"
                                 required
                                 className={inputClasses}
+                                placeholder="Your Email"
                             />
                         </div>
-
-                        <div className="relative">
-                            <label htmlFor="message" className={labelClasses}>Tell me about your project</label>
+                        <div>
                             <textarea
-                                id="message"
                                 name="message"
                                 value={form.message}
                                 onChange={handleChange}
-                                onFocus={() => setFocusedField('message')}
-                                onBlur={() => setFocusedField(null)}
-                                rows={3}
-                                placeholder="I need a website that..."
                                 required
+                                rows={3}
                                 className={`${inputClasses} resize-none`}
+                                placeholder="Tell me about your project..."
                             />
                         </div>
 
-                        <input type="text" name="_gotcha" value={form._gotcha} onChange={handleChange} style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+                        <input type="text" name="_gotcha" value={form._gotcha} onChange={handleChange} style={{ display: 'none' }} tabIndex={-1} />
 
-                        <div className="flex items-center gap-4">
-                            <button
-                                type="submit"
-                                disabled={status.type === 'sending'}
-                                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-bold text-lg overflow-hidden transition-transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <span className="relative z-10 flex items-center gap-2">
-                                    {status.type === 'sending' ? 'Sending...' : 'Send Message'}
-                                    {status.type === 'sending' ? <Loader2 className="animate-spin" /> : <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
-                                </span>
-                                <div className="absolute inset-0 bg-gradient-to-r from-light-primary to-light-secondary dark:from-dark-primary dark:to-dark-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            </button>
+                        <button
+                            type="submit"
+                            disabled={status.type === 'sending'}
+                            className="w-full group relative px-8 py-6 bg-white text-black rounded-2xl font-bold text-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                        >
+                            <span className="relative z-10 flex items-center justify-center gap-3">
+                                {status.type === 'sending' ? 'Sending...' : 'Send Message'}
+                                {status.type === 'sending' ? <Loader2 size={24} className="animate-spin" /> : <Send size={24} className="group-hover:translate-x-1 transition-transform" />}
+                            </span>
+                        </button>
 
-                            <AnimatePresence>
-                                {status.type && (
-                                    <motion.div
-                                        initial={{ opacity: 0, x: 10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 10 }}
-                                        className={`flex items-center gap-2 font-medium ${status.type === 'error' ? 'text-red-500' : 'text-green-500'}`}
-                                    >
-                                        {status.type === 'error' ? <XCircle size={20} /> : <CheckCircle2 size={20} />}
-                                        {status.type === 'sent' ? 'Sent!' : 'Error'}
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    </motion.form>
-
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.4 }}
-                        className="flex flex-col gap-8 md:pt-8"
-                    >
-                        <div>
-                            <h3 className="font-bold text-gray-400 uppercase tracking-wider mb-4">Contact Details</h3>
-                            <a href="mailto:me@erickcaballero.com" className="block text-xl font-medium hover:text-light-primary dark:hover:text-dark-primary transition-colors mb-2">
-                                me@erickcaballero.com
-                            </a>
-                            <p className="text-gray-600 dark:text-gray-400">Atlanta, GA</p>
-                        </div>
-
-                        <div>
-                            <h3 className="font-bold text-gray-400 uppercase tracking-wider mb-4">Socials</h3>
-                            <div className="flex flex-col gap-4">
-                                {[
-                                    { name: "GitHub", icon: Github, href: "https://github.com/erick-caballero" },
-                                    { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/in/erickcaballero2/" }
-                                ].map((social) => (
-                                    <a
-                                        key={social.name}
-                                        href={social.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center gap-3 text-lg font-medium hover:text-light-primary dark:hover:text-dark-primary transition-colors group"
-                                    >
-                                        <social.icon className="group-hover:scale-110 transition-transform" />
-                                        {social.name}
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.div>
+                        <AnimatePresence>
+                            {status.type && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className={`flex items-center justify-center gap-2 text-lg font-medium pt-2 ${status.type === 'error' ? 'text-red-400' : 'text-green-400'}`}
+                                >
+                                    {status.type === 'error' ? <XCircle size={24} /> : <CheckCircle2 size={24} />}
+                                    {status.message}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </form>
                 </div>
+
             </div>
         </section>
     );

@@ -1,180 +1,150 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Github, ExternalLink, Code2, Search } from 'lucide-react';
+import { Github, ExternalLink } from 'lucide-react';
 
 const projects = [
     {
-        title: "Portfolio V1",
-        description: "My previous portfolio site built with React and Tailwind CSS. Featured a clean dark mode design.",
-        tags: ["React", "Tailwind", "Framer Motion"],
+        title: "Blackjack Game",
+        description: "Java-based game with GUI and AI dealer.",
+        tags: ["Java", "Swing", "OOP"],
         github: "https://github.com/erick-caballero",
         demo: "#",
-        image: "https://placehold.co/600x400/1e293b/ffffff?text=Portfolio+V1"
+        image: "/blackjack.jpg",
     },
     {
-        title: "E-Commerce Dashboard",
-        description: "A comprehensive dashboard for managing online stores. Includes real-time analytics and inventory management.",
-        tags: ["Next.js", "TypeScript", "Prisma"],
+        title: "Graph Algo Trainer",
+        description: "Interactive visualizer for BFS, DFS, Dijkstra.",
+        tags: ["JS", "HTML/CSS"],
         github: "https://github.com/erick-caballero",
         demo: "#",
-        image: "https://placehold.co/600x400/0f172a/ffffff?text=Dashboard"
+        image: "/graphalgotrainer.jpg",
     },
     {
-        title: "AI Chat Interface",
-        description: "A modern chat interface for interacting with LLMs. Features streaming responses and code highlighting.",
-        tags: ["React", "OpenAI API", "Vite"],
+        title: "MoneyParce",
+        description: "Personal finance tracker for budgeting.",
+        tags: ["React", "Node.js"],
         github: "https://github.com/erick-caballero",
         demo: "#",
-        image: "https://placehold.co/600x400/171717/ffffff?text=AI+Chat"
+        image: "/moneyparce.jpg",
     },
     {
-        title: "Task Manager",
-        description: "A collaborative task management tool with drag-and-drop functionality and team workspaces.",
-        tags: ["Vue", "Firebase", "Pinia"],
+        title: "Voxel Editor",
+        description: "3D modeling tool with C++ and OpenGL.",
+        tags: ["C++", "OpenGL"],
         github: "https://github.com/erick-caballero",
         demo: "#",
-        image: "https://placehold.co/600x400/334155/ffffff?text=Task+Manager"
+        image: "/voxeleditor.jpg",
     }
 ];
 
-function TiltCard({ project, index }) {
+function ProjectCard({ project }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
-    const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
-    const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
+    const mouseXSpring = useSpring(x);
+    const mouseYSpring = useSpring(y);
 
-    function onMouseMove({ currentTarget, clientX, clientY }) {
-        const { left, top, width, height } = currentTarget.getBoundingClientRect();
-        x.set(clientX - left - width / 2);
-        y.set(clientY - top - height / 2);
-    }
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["17.5deg", "-17.5deg"]);
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-17.5deg", "17.5deg"]);
 
-    function onMouseLeave() {
+    const handleMouseMove = (e) => {
+        const rect = e.target.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const xPct = mouseX / width - 0.5;
+        const yPct = mouseY / height - 0.5;
+        x.set(xPct);
+        y.set(yPct);
+    };
+
+    const handleMouseLeave = () => {
         x.set(0);
         y.set(0);
-    }
-
-    const rotateX = useTransform(mouseY, [-200, 200], [10, -10]);
-    const rotateY = useTransform(mouseX, [-200, 200], [-10, 10]);
+    };
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            viewport={{ once: true }}
-            style={{ perspective: 1000 }}
-            className="h-full"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{
+                rotateY,
+                rotateX,
+                transformStyle: "preserve-3d",
+            }}
+            className="min-w-[350px] md:min-w-[500px] h-[600px] relative group rounded-3xl bg-dark-surface border border-white/10 overflow-hidden shadow-2xl mx-4"
         >
-            <motion.div
-                style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                onMouseMove={onMouseMove}
-                onMouseLeave={onMouseLeave}
-                className="relative h-full bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-xl group hover:shadow-2xl transition-shadow duration-300"
+            <div
+                style={{ transform: "translateZ(50px)" }}
+                className="absolute inset-0"
             >
-                <div style={{ transform: "translateZ(50px)" }} className="mb-6 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 aspect-video relative">
-                    <div className="absolute inset-0 bg-light-primary/10 dark:bg-dark-primary/10 group-hover:opacity-0 transition-opacity duration-300 z-10" />
-                    <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                    />
-                </div>
+                <img
+                    src={project.image}
+                    alt={project.title}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x800/1a1a1a/ffffff?text=' + project.title; }}
+                    draggable="false"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
+            </div>
 
-                <div style={{ transform: "translateZ(30px)" }}>
-                    <h3 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-light-primary dark:group-hover:text-dark-primary transition-colors">
-                        {project.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
-                        {project.description}
-                    </p>
-                </div>
+            <div
+                style={{ transform: "translateZ(75px)" }}
+                className="absolute inset-0 p-10 flex flex-col justify-end pointer-events-none"
+            >
+                <h3 className="text-4xl font-bold text-white mb-3 drop-shadow-lg">{project.title}</h3>
+                <p className="text-gray-200 text-lg mb-6 line-clamp-3 drop-shadow-md">{project.description}</p>
 
-                <div style={{ transform: "translateZ(20px)" }} className="flex flex-wrap gap-2 mb-6">
-                    {project.tags.map(tag => (
-                        <span key={tag} className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
-                            {tag}
-                        </span>
-                    ))}
+                <div className="flex items-center justify-between pointer-events-auto">
+                    <div className="flex gap-2">
+                        {project.tags.map(tag => (
+                            <span key={tag} className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold text-white border border-white/10">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                    <div className="flex gap-4">
+                        <a href={project.github} target="_blank" className="p-3 rounded-full bg-white/10 hover:bg-white text-white hover:text-black transition-all"><Github size={24} /></a>
+                        {project.demo !== "#" && <a href={project.demo} target="_blank" className="p-3 rounded-full bg-white/10 hover:bg-white text-white hover:text-black transition-all"><ExternalLink size={24} /></a>}
+                    </div>
                 </div>
-
-                <div style={{ transform: "translateZ(40px)" }} className="flex items-center gap-4 mt-auto">
-                    <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-dark-primary transition-colors"
-                    >
-                        <Github size={18} /> Code
-                    </a>
-                    <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-dark-primary transition-colors"
-                    >
-                        <ExternalLink size={18} /> Live Demo
-                    </a>
-                </div>
-            </motion.div>
+            </div>
         </motion.div>
     );
 }
 
 export default function Projects() {
-    const [filter, setFilter] = useState("");
+    const carouselRef = useRef(null);
+    const [width, setWidth] = useState(0);
 
-    const filteredProjects = projects.filter(p =>
-        p.title.toLowerCase().includes(filter.toLowerCase()) ||
-        p.tags.some(t => t.toLowerCase().includes(filter.toLowerCase()))
-    );
+    useEffect(() => {
+        if (carouselRef.current) {
+            setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth);
+        }
+    }, []);
 
     return (
-        <section id="projects" className="py-20 relative">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                    >
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                            Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-light-primary to-light-accent dark:from-dark-primary dark:to-dark-accent">Works</span>
-                        </h2>
-                        <p className="text-gray-600 dark:text-gray-400 max-w-xl">
-                            A collection of projects that showcase my passion for building digital products.
-                        </p>
-                    </motion.div>
+        <section className="h-full flex flex-col justify-center py-10 overflow-hidden pl-24 md:pl-32">
+            <div className="max-w-7xl w-full mb-12 pr-8">
+                <h2 className="text-5xl md:text-6xl font-light text-white mb-4">
+                    Selected Works
+                </h2>
+                <p className="text-xl text-gray-400">Interactive gallery. Hover and drag to explore.</p>
+            </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="relative"
-                    >
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                        <input
-                            type="text"
-                            placeholder="Search projects..."
-                            value={filter}
-                            onChange={(e) => setFilter(e.target.value)}
-                            className="pl-12 pr-6 py-3 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary outline-none w-full md:w-64 transition-shadow shadow-sm"
-                        />
-                    </motion.div>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-12">
-                    {filteredProjects.map((project, index) => (
-                        <TiltCard key={index} project={project} index={index} />
+            <div className="w-full overflow-visible cursor-grab active:cursor-grabbing py-10">
+                <motion.div
+                    ref={carouselRef}
+                    className="flex gap-8"
+                    drag="x"
+                    dragConstraints={{ right: 0, left: -width }}
+                    whileTap={{ cursor: "grabbing" }}
+                >
+                    {projects.map((project, index) => (
+                        <ProjectCard key={index} project={project} />
                     ))}
-                </div>
-
-                {filteredProjects.length === 0 && (
-                    <div className="text-center py-20">
-                        <p className="text-gray-500 dark:text-gray-400 text-lg">No projects found matching your search.</p>
-                    </div>
-                )}
+                </motion.div>
             </div>
         </section>
     );

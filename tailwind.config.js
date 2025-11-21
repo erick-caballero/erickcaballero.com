@@ -1,10 +1,9 @@
-/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // Ensure this covers your file extensions
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class', // To enable dark mode based on class
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
@@ -12,44 +11,50 @@ export default {
         mono: ['"Fira Code"', 'monospace'],
       },
       colors: {
+        // Dark Mode (Default)
+        dark: {
+          bg: '#0a0a0a', // Neutral 950 (Deep Black)
+          surface: '#171717', // Neutral 900
+          primary: '#3b82f6', // Blue 500
+          secondary: '#06b6d4', // Cyan 500
+          accent: '#6366f1', // Indigo 500 (Subtle accent)
+          text: '#fafafa', // Neutral 50
+          muted: '#a3a3a3', // Neutral 400
+        },
         // Light Mode
         light: {
           bg: '#ffffff',
-          text: '#1a202c',
-          primary: '#2563eb', // blue-600
-          secondary: '#4f46e5', // indigo-600
-          accent: '#06b6d4', // cyan-500
-        },
-        // Dark Mode
-        dark: {
-          bg: '#0a0a0a', // near black
-          text: '#f3f4f6', // gray-100
-          primary: '#3b82f6', // blue-500
-          secondary: '#8b5cf6', // violet-500
-          accent: '#22d3ee', // cyan-400
+          surface: '#f5f5f5', // Neutral 100
+          primary: '#2563eb', // Blue 600
+          secondary: '#0891b2', // Cyan 600
+          accent: '#4f46e5', // Indigo 600
+          text: '#171717', // Neutral 900
+          muted: '#737373', // Neutral 500
         },
       },
       animation: {
-        'blob': 'blob 7s infinite',
-        'fade-in': 'fadeIn 0.5s ease-out forwards',
+        'spotlight': 'spotlight 2s ease .75s 1 forwards',
+        'shimmer': 'shimmer 2s linear infinite',
         'float': 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-glow': 'pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
-        blob: {
-          '0%': { transform: 'translate(0px, 0px) scale(1)' },
-          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-          '100%': { transform: 'translate(0px, 0px) scale(1)' },
+        spotlight: {
+          '0%': { opacity: 0, transform: 'translate(-72%, -62%) scale(0.5)' },
+          '100%': { opacity: 1, transform: 'translate(-50%,-40%) scale(1)' },
         },
-        fadeIn: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+        shimmer: {
+          from: { backgroundPosition: '0 0' },
+          to: { backgroundPosition: '-200% 0' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-20px)' },
         },
+        'pulse-glow': {
+          '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' },
+          '50%': { opacity: .5, boxShadow: '0 0 10px rgba(99, 102, 241, 0.2)' },
+        }
       },
     },
   },
