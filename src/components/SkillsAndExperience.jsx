@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, Briefcase, GraduationCap } from 'lucide-react';
+import { Download, Briefcase, GraduationCap, ArrowUpRight } from 'lucide-react';
 
 const experience = [
     {
@@ -31,30 +31,33 @@ const skills = [
 
 export default function SkillsAndExperience() {
     return (
-        <section className="h-full flex items-center justify-center py-10 overflow-y-auto no-scrollbar pl-12 md:pl-0">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid md:grid-cols-12 gap-12">
+        <section className="min-h-screen flex flex-col justify-center py-20 pl-24 md:pl-32 pr-8 md:pr-16 overflow-y-auto">
+            <div className="max-w-[1600px] w-full mx-auto grid lg:grid-cols-12 gap-16 lg:gap-24">
 
-                {/* Left Column: Header & Skills (4 cols) */}
-                <div className="md:col-span-5 space-y-10">
+                {/* Left Column: Header & Skills */}
+                <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-12">
                     <div>
-                        <h2 className="text-5xl md:text-6xl font-light text-white mb-6">Experience</h2>
-                        <p className="text-xl text-gray-400 font-light leading-relaxed mb-8">
+                        <h2 className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-tight">
+                            Experience
+                        </h2>
+                        <p className="text-2xl text-gray-400 leading-relaxed mb-10 max-w-md">
                             My professional journey and technical arsenal.
                         </p>
                         <a
                             href="/resume.pdf"
                             target="_blank"
-                            className="inline-flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-full text-white font-medium transition-all"
+                            className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full text-lg font-bold transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                            data-hover-target="true"
                         >
-                            Download Resume <Download size={20} />
+                            Download Resume <Download size={24} className="group-hover:translate-y-1 transition-transform" />
                         </a>
                     </div>
 
                     <div>
-                        <h3 className="text-sm font-mono text-gray-500 uppercase tracking-wider mb-6">Technologies</h3>
-                        <div className="flex flex-wrap gap-2">
+                        <h3 className="text-lg font-bold text-white uppercase tracking-widest mb-6 opacity-50">Technologies</h3>
+                        <div className="flex flex-wrap gap-3">
                             {skills.map((skill, index) => (
-                                <span key={index} className="px-4 py-2 rounded-lg bg-dark-surface border border-white/5 text-gray-300 hover:text-white hover:border-dark-accent/50 transition-colors cursor-default">
+                                <span key={index} className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors cursor-default">
                                     {skill}
                                 </span>
                             ))}
@@ -62,22 +65,23 @@ export default function SkillsAndExperience() {
                     </div>
                 </div>
 
-                {/* Right Column: Timeline Cards (8 cols) */}
-                <div className="md:col-span-7 space-y-6">
+                {/* Right Column: Timeline */}
+                <div className="lg:col-span-7 flex flex-col justify-center space-y-8">
                     {experience.map((item, index) => (
-                        <div key={index} className="group p-8 rounded-3xl bg-dark-surface border border-white/5 hover:border-dark-accent/30 transition-all hover:shadow-lg hover:shadow-dark-accent/5">
-                            <div className="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 className="text-2xl font-bold text-white group-hover:text-dark-accent transition-colors">
-                                        {item.company}
-                                    </h3>
-                                    <p className="text-lg text-gray-400 font-medium">{item.role}</p>
-                                </div>
-                                <span className="px-3 py-1 rounded-full bg-white/5 text-sm font-mono text-gray-500 border border-white/5">
+                        <div key={index} className="group relative pl-8 border-l-2 border-white/10 hover:border-white transition-colors duration-500">
+                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-black border-2 border-white/20 group-hover:border-white group-hover:bg-white transition-all duration-500" />
+
+                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2">
+                                <h3 className="text-3xl font-bold text-white group-hover:text-white/80 transition-colors">
+                                    {item.company}
+                                </h3>
+                                <span className="text-lg font-mono text-gray-500 mt-1 sm:mt-0">
                                     {item.period}
                                 </span>
                             </div>
-                            <p className="text-gray-500 font-light leading-relaxed">
+
+                            <p className="text-xl text-white/60 font-medium mb-2">{item.role}</p>
+                            <p className="text-lg text-gray-400 leading-relaxed max-w-2xl">
                                 {item.description}
                             </p>
                         </div>

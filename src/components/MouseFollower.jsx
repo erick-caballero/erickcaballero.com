@@ -2,68 +2,78 @@ import React, { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export default function MouseFollower() {
+    const [hoveredElement, setHoveredElement] = useState(null);
+    const [cursorState, setCursorState] = useState({ width: 16, height: 16, x: -100, y: -100, borderRadius: 999 });
+
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
-    const springConfig = { damping: 25, stiffness: 700 };
+    const springConfig = { damping: 25, stiffness: 400 };
     const cursorXSpring = useSpring(cursorX, springConfig);
     const cursorYSpring = useSpring(cursorY, springConfig);
 
-    const [isHovering, setIsHovering] = useState(false);
-    const [isClicking, setIsClicking] = useState(false);
-
     useEffect(() => {
         const moveCursor = (e) => {
-            cursorX.set(e.clientX - 16);
-            cursorY.set(e.clientY - 16);
+            if (!hoveredElement) {
+                cursorX.set(e.clientX - 8);
+                cursorY.set(e.clientY - 8);
+            }
         };
 
-        const handleMouseDown = () => setIsClicking(true);
-        const handleMouseUp = () => setIsClicking(false);
-
         const handleMouseOver = (e) => {
-            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.closest('button') || e.target.closest('a')) {
-                setIsHovering(true);
+            const target = e.target.closest('button, a, [data-hover-target="true"]');
+            if (target) {
+                setHoveredElement(target);
             } else {
-                setIsHovering(false);
+                setHoveredElement(null);
             }
         };
 
         window.addEventListener('mousemove', moveCursor);
-        window.addEventListener('mousedown', handleMouseDown);
-        window.addEventListener('mouseup', handleMouseUp);
         window.addEventListener('mouseover', handleMouseOver);
 
         return () => {
             window.removeEventListener('mousemove', moveCursor);
-            window.removeEventListener('mousedown', handleMouseDown);
-            window.removeEventListener('mouseup', handleMouseUp);
             window.removeEventListener('mouseover', handleMouseOver);
         };
-    }, []);
+    }, [hoveredElement, cursorX, cursorY]);
+
+    useEffect(() => {
+        if (hoveredElement) {
+            const rect = hoveredElement.getBoundingClientRect();
+            cursorX.set(rect.left);
+            cursorY.set(rect.top);
+            setCursorState({
+                width: rect.width,
+                height: rect.height,
+                borderRadius: 12 // Slightly rounded corners for the "snap" effect
+            });
+        } else {
+            setCursorState({
+                width: 16,
+                height: 16,
+                borderRadius: 999
+            });
+        }
+    }, [hoveredElement, cursorX, cursorY]);
 
     return (
         <motion.div
-            className="fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-dark-primary pointer-events-none z-[9999] mix-blend-difference"
+            className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference bg-white"
             style={{
                 x: cursorXSpring,
                 y: cursorYSpring,
             }}
             animate={{
-                scale: isClicking ? 0.8 : isHovering ? 1.5 : 1,
-                backgroundColor: isHovering ? 'rgba(59, 130, 246, 0.2)' : 'transparent',
-                borderColor: isHovering ? 'transparent' : '#3b82f6',
+                width: cursorState.width,
+                height: cursorState.height,
+                borderRadius: cursorState.borderRadius,
             }}
             transition={{
-                scale: { type: "spring", stiffness: 400, damping: 25 }
+                type: "spring",
+                stiffness: 400,
+                damping: 30
             }}
-        >
-            <motion.div
-                className="absolute inset-0 bg-dark-secondary rounded-full opacity-50 blur-sm"
-                animate={{
-                    scale: isHovering ? 1.2 : 0,
-                }}
-            />
-        </motion.div>
+        />
     );
 }

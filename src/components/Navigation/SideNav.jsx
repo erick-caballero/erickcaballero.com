@@ -6,7 +6,7 @@ const SideNav = ({ activeSection, sections, scrollToSection }) => {
 
     return (
         <>
-            {/* Navigation Dots (Leftmost) */}
+            {/* Navigation Dots (Leftmost) - Keeping these as they are subtle indicators */}
             <div className="fixed left-10 top-1/2 transform -translate-y-1/2 z-50 hidden lg:flex flex-col gap-8">
                 {sections.map((section, index) => (
                     <button
@@ -17,7 +17,7 @@ const SideNav = ({ activeSection, sections, scrollToSection }) => {
                     >
                         <div
                             className={`w-3 h-3 rounded-full transition-all duration-300 ${activeSection === index
-                                ? 'bg-dark-accent scale-150 shadow-[0_0_10px_rgba(6,182,212,0.8)]'
+                                ? 'bg-white scale-125'
                                 : 'bg-white/20 group-hover:bg-white/50'
                                 }`}
                         />
@@ -25,8 +25,8 @@ const SideNav = ({ activeSection, sections, scrollToSection }) => {
                 ))}
             </div>
 
-            {/* Glass Icon Bar (Floating next to dots) - Thicker & Bigger */}
-            <div className="fixed left-24 top-1/2 transform -translate-y-1/2 z-50 hidden lg:flex flex-col gap-10 p-6 rounded-[2rem] border-2 border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
+            {/* Glass Icon Bar (Floating next to dots) - Redesigned */}
+            <div className="fixed left-24 top-1/2 transform -translate-y-1/2 z-50 hidden lg:flex flex-col gap-6 p-4 rounded-3xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl">
                 {sections.map((section, index) => {
                     const Icon = icons[index] || Home;
                     const isActive = activeSection === index;
@@ -34,16 +34,17 @@ const SideNav = ({ activeSection, sections, scrollToSection }) => {
                         <button
                             key={section.id}
                             onClick={() => scrollToSection(index)}
-                            className={`group relative p-3 rounded-xl transition-all duration-300 ${isActive
-                                    ? 'text-white bg-dark-accent/20 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
-                                    : 'text-gray-400 hover:text-white hover:bg-white/10'
+                            className={`group relative p-4 rounded-2xl transition-all duration-300 ${isActive
+                                ? 'text-black bg-white'
+                                : 'text-white/50 hover:text-white hover:bg-white/10'
                                 }`}
                             aria-label={section.label}
+                            data-hover-target="true"
                         >
-                            <Icon size={28} strokeWidth={isActive ? 2 : 1.5} />
+                            <Icon size={32} strokeWidth={2.5} />
 
                             {/* Tooltip */}
-                            <span className="absolute left-full ml-6 px-3 py-2 rounded-lg bg-black/80 border border-white/10 text-sm font-medium text-white opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap pointer-events-none backdrop-blur-md">
+                            <span className="absolute left-full ml-6 px-4 py-2 rounded-xl bg-white text-black text-sm font-bold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap pointer-events-none shadow-lg">
                                 {section.label}
                             </span>
                         </button>
