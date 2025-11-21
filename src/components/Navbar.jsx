@@ -1,131 +1,59 @@
-// src/components/Navbar.jsx
-import React, { useState, useEffect, useContext } from 'react';
-import { Sun, Moon, Menu as MenuIcon, X, User, Code, Briefcase, TrendingUp, MessageSquare } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import AppContext from '../context/AppContext'; // Adjust path as needed
+import React, { useContext } from 'react';
+import { motion } from 'framer-motion';
+import { Home, Briefcase, User, Mail, Sun, Moon, Code2 } from 'lucide-react';
+import AppContext from '../context/AppContext';
 
 const navItems = [
-    { label: 'Home', href: '#hero', icon: <User size={18} /> },
-    { label: 'Projects', href: '#projects', icon: <Code size={18} /> },
-    { label: 'About', href: '#about', icon: <Briefcase size={18} /> },
-    { label: 'Journey', href: '#experience-skills', icon: <TrendingUp size={18} /> },
-    { label: 'Contact', href: '#contact', icon: <MessageSquare size={18} /> },
+    { icon: Home, label: 'Home', href: '#hero' },
+    { icon: Code2, label: 'Projects', href: '#projects' },
+    { icon: Briefcase, label: 'Skills', href: '#experience-skills' },
+    { icon: Mail, label: 'Contact', href: '#contact' },
 ];
 
 function Navbar() {
     const { darkMode, toggleDark } = useContext(AppContext);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [activeSection, setActiveSection] = useState('hero');
-    const [hasScrolled, setHasScrolled] = useState(false);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        setActiveSection(entry.target.id);
-                    }
-                });
-            },
-            { rootMargin: "-40% 0px -60% 0px" }
-        );
-
-        navItems.forEach(item => {
-            const element = document.querySelector(item.href);
-            if (element) observer.observe(element);
-        });
-
-        const handleScroll = () => {
-            setHasScrolled(window.scrollY > 20);
-        };
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            observer.disconnect();
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    const NavLink = ({ href, label, icon, isMobile = false }) => (
-        <a
-            key={href}
-            href={href}
-            onClick={(e) => {
-                e.preventDefault();
-                if (isMobile) setMobileMenuOpen(false);
-                document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ease-in-out
-        ${activeSection === href.substring(1)
-                ? 'bg-blue-600 text-white shadow-md dark:bg-blue-500'
-                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-blue-600 dark:hover:text-blue-400'
-            }
-        ${isMobile ? 'w-full justify-start text-base py-3' : 'hover:scale-105 transform'} 
-      `}
-        >
-            {icon}
-            <span>{label}</span>
-        </a>
-    );
 
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ease-in-out 
-        ${hasScrolled ? 'backdrop-blur-lg bg-white/90 dark:bg-gray-900/90 shadow-xl' : 'bg-transparent dark:bg-transparent shadow-none'}`}>
-            <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
-                <a href="#hero" onClick={(e) => { e.preventDefault(); document.querySelector('#hero')?.scrollIntoView({ behavior: 'smooth' }); }}
-                   className="font-bold text-3xl text-gray-900 dark:text-white transition-colors hover:opacity-80">
-                    Erick<span className="text-blue-600 dark:text-blue-400">.</span>
-                </a>
-                <div className="hidden md:flex items-center space-x-1">
-                    {navItems.map(item => (
-                        <NavLink key={item.href} href={item.href} label={item.label} icon={item.icon} />
-                    ))}
-                    <button
-                        onClick={toggleDark}
-                        aria-label="Toggle Dark Mode"
-                        className="p-2.5 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
-                    >
-                        {darkMode ? <Sun size={22} /> : <Moon size={22} />}
-                    </button>
-                </div>
-                <div className="flex items-center md:hidden space-x-2">
-                    <button
-                        onClick={toggleDark}
-                        aria-label="Toggle Dark Mode"
-                        className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
-                    >
-                        {darkMode ? <Sun size={24} /> : <Moon size={24} />}
-                    </button>
-                    <button
-                        onClick={() => setMobileMenuOpen(o => !o)}
-                        aria-label="Toggle Menu"
-                        aria-expanded={mobileMenuOpen}
-                        aria-controls="mobile-menu"
-                        className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
-                    >
-                        {mobileMenuOpen ? <X size={28} /> : <MenuIcon size={28} />}
-                    </button>
-                </div>
-            </div>
-            <AnimatePresence>
-                {mobileMenuOpen && (
-                    <motion.div
-                        id="mobile-menu"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.2, ease: "circOut" }}
-                        className="md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg"
-                    >
-                        <div className="px-3 pt-3 pb-4 space-y-2">
-                            {navItems.map(item => (
-                                <NavLink key={item.href} href={item.href} label={item.label} icon={item.icon} isMobile={true} />
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </nav>
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-auto">
+            <motion.nav
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                className="glass-card px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl ring-1 ring-white/20 dark:ring-white/10"
+            >
+                {navItems.map((item) => (
+                    <NavItem key={item.label} item={item} />
+                ))}
+
+                <div className="w-px h-8 bg-gray-300 dark:bg-gray-700 mx-2" />
+
+                <button
+                    onClick={toggleDark}
+                    className="p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative group"
+                    aria-label="Toggle Theme"
+                >
+                    {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+                    <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                        {darkMode ? 'Light Mode' : 'Dark Mode'}
+                    </span>
+                </button>
+            </motion.nav>
+        </div>
+    );
+}
+
+function NavItem({ item }) {
+    return (
+        <a
+            href={item.href}
+            onClick={(e) => { e.preventDefault(); document.querySelector(item.href)?.scrollIntoView({ behavior: 'smooth' }); }}
+            className="relative group p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        >
+            <item.icon size={24} className="text-gray-600 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
+            <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                {item.label}
+            </span>
+        </a>
     );
 }
 

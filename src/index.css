@@ -1,16 +1,44 @@
-/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* You can add any other global styles here */
-body {
-    font-family: 'Inter', sans-serif; /* Example: Ensure Inter is configured in tailwind.config.js */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+@layer base {
+  body {
+    @apply font-sans antialiased text-light-text bg-light-bg dark:text-dark-text dark:bg-dark-bg transition-colors duration-500;
+  }
+
+  /* Default to dark mode styles if no class is present */
+  :root {
+    color-scheme: dark light;
+  }
 }
 
-/* Smooth scrolling for the whole page */
-html {
-    scroll-behavior: smooth;
+@layer utilities {
+  .glass {
+    @apply bg-white/10 dark:bg-black/10 backdrop-blur-lg border border-white/20 dark:border-white/10;
+  }
+
+  .glass-card {
+    @apply bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl;
+  }
+}
+
+/* Custom Scrollbar - Hidden but functional */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Selection */
+::selection {
+  @apply bg-dark-primary text-white;
 }
