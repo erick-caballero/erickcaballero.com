@@ -7,6 +7,7 @@
 @layer base {
   body {
     @apply font-sans antialiased text-light-text bg-light-bg dark:text-dark-text dark:bg-dark-bg transition-colors duration-500;
+    cursor: none;
   }
 
   /* Default to dark mode styles if no class is present */

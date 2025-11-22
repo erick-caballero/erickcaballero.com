@@ -7,7 +7,7 @@ import AppContext from './context/AppContext';
 // Core Components
 import ErrorBoundary from './components/ErrorBoundary';
 import FullPageScroll from './components/Layout/FullPageScroll';
-import FunMouse from './components/FunMouse';
+import MouseFollower from './components/MouseFollower';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
 import SkillsAndExperience from './components/SkillsAndExperience';
@@ -39,7 +39,7 @@ export default function App() {
                 </Helmet>
 
                 <ErrorBoundary>
-                    <FunMouse />
+                    <MouseFollower />
                     <div className="relative overflow-hidden selection:bg-dark-primary selection:text-white font-sans text-dark-text bg-dark-bg">
 
                         {/* Global Spotlight Effect */}

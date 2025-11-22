@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Loader2, CheckCircle2, XCircle, ArrowUpRight, Github, Linkedin } from 'lucide-react';
+import { Send, Loader2, CheckCircle2, XCircle, ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react';
 
 export default function Contact() {
     const [form, setForm] = useState({ name: '', email: '', message: '', _gotcha: '' });
@@ -42,7 +42,7 @@ export default function Contact() {
         }
     };
 
-    const inputClasses = "w-full bg-transparent border-b-2 border-white/20 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-white transition-all text-2xl font-medium";
+    const inputClasses = "w-full bg-transparent border-b-2 border-white/20 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-white transition-all text-2xl font-medium font-sans";
 
     return (
         <section className="h-full flex flex-col justify-center py-10 relative overflow-hidden pl-24 md:pl-32 pr-8">
@@ -50,7 +50,7 @@ export default function Contact() {
 
                 {/* Text Side */}
                 <div className="lg:col-span-5 space-y-12">
-                    <h2 className="text-7xl md:text-9xl font-bold text-white tracking-tight leading-none">
+                    <h2 className="text-7xl md:text-9xl font-bold text-white tracking-tight leading-none pb-4">
                         Let's <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">Collaborate.</span>
                     </h2>
@@ -61,13 +61,29 @@ export default function Contact() {
                             className="inline-flex items-center gap-3 text-3xl md:text-4xl text-white hover:text-gray-300 transition-colors group font-medium"
                             data-hover-target="true"
                         >
-                            me@erickcaballero.com
-                            <ArrowUpRight size={32} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                            <Mail size={40} className="text-white" />
+                            <span className="border-b-2 border-transparent group-hover:border-white transition-colors">me@erickcaballero.com</span>
                         </a>
 
-                        <div className="flex gap-8">
-                            <a href="https://github.com/erick-caballero" target="_blank" className="text-gray-500 hover:text-white text-sm uppercase tracking-widest transition-colors font-bold" data-hover-target="true">Github</a>
-                            <a href="https://www.linkedin.com/in/erickcaballero2/" target="_blank" className="text-gray-500 hover:text-white text-sm uppercase tracking-widest transition-colors font-bold" data-hover-target="true">LinkedIn</a>
+                        <div className="flex gap-6">
+                            <a
+                                href="https://github.com/erick-caballero"
+                                target="_blank"
+                                className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white hover:text-black transition-all hover:scale-110"
+                                data-hover-target="true"
+                                aria-label="Github"
+                            >
+                                <Github size={32} />
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/erickcaballero2/"
+                                target="_blank"
+                                className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white hover:text-black transition-all hover:scale-110"
+                                data-hover-target="true"
+                                aria-label="LinkedIn"
+                            >
+                                <Linkedin size={32} />
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -114,7 +130,7 @@ export default function Contact() {
                         <button
                             type="submit"
                             disabled={status.type === 'sending'}
-                            className="w-full group relative px-8 py-6 bg-white text-black rounded-2xl font-bold text-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden hover:scale-[1.02]"
+                            className="w-full group relative px-8 py-6 bg-white text-black rounded-2xl font-bold text-xl font-sans transition-all disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden hover:scale-[1.02]"
                             data-hover-target="true"
                         >
                             <span className="relative z-10 flex items-center justify-center gap-3">
