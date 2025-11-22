@@ -42,37 +42,38 @@ export default function Contact() {
         }
     };
 
-    const inputClasses = "w-full bg-transparent border-b-2 border-white/20 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-dark-accent transition-all text-2xl font-medium";
+    const inputClasses = "w-full bg-transparent border-b-2 border-white/20 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-white transition-all text-2xl font-medium";
 
     return (
-        <section className="h-full flex flex-col justify-center py-10 relative overflow-hidden pl-12 md:pl-0">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid lg:grid-cols-2 gap-16 items-center">
+        <section className="h-full flex flex-col justify-center py-10 relative overflow-hidden pl-24 md:pl-32 pr-8">
+            <div className="max-w-[1600px] w-full mx-auto grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
 
                 {/* Text Side */}
-                <div className="space-y-12">
-                    <h2 className="text-6xl md:text-8xl font-bold text-white tracking-tight leading-none">
+                <div className="lg:col-span-5 space-y-12">
+                    <h2 className="text-7xl md:text-9xl font-bold text-white tracking-tight leading-none">
                         Let's <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-dark-accent to-white">Collaborate.</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">Collaborate.</span>
                     </h2>
 
                     <div className="space-y-8">
                         <a
                             href="mailto:me@erickcaballero.com"
-                            className="inline-flex items-center gap-3 text-3xl md:text-4xl text-white hover:text-dark-accent transition-colors group font-medium"
+                            className="inline-flex items-center gap-3 text-3xl md:text-4xl text-white hover:text-gray-300 transition-colors group font-medium"
+                            data-hover-target="true"
                         >
                             me@erickcaballero.com
                             <ArrowUpRight size={32} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                         </a>
 
                         <div className="flex gap-8">
-                            <a href="https://github.com/erick-caballero" target="_blank" className="text-gray-500 hover:text-white text-sm uppercase tracking-widest transition-colors font-bold">Github</a>
-                            <a href="https://www.linkedin.com/in/erickcaballero2/" target="_blank" className="text-gray-500 hover:text-white text-sm uppercase tracking-widest transition-colors font-bold">LinkedIn</a>
+                            <a href="https://github.com/erick-caballero" target="_blank" className="text-gray-500 hover:text-white text-sm uppercase tracking-widest transition-colors font-bold" data-hover-target="true">Github</a>
+                            <a href="https://www.linkedin.com/in/erickcaballero2/" target="_blank" className="text-gray-500 hover:text-white text-sm uppercase tracking-widest transition-colors font-bold" data-hover-target="true">LinkedIn</a>
                         </div>
                     </div>
                 </div>
 
                 {/* Form Side */}
-                <div className="bg-dark-surface/50 p-10 rounded-[3rem] border border-white/5 backdrop-blur-sm">
+                <div className="lg:col-span-7 bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-sm">
                     <form onSubmit={handleSubmit} className="space-y-10">
                         <div>
                             <input
@@ -113,7 +114,8 @@ export default function Contact() {
                         <button
                             type="submit"
                             disabled={status.type === 'sending'}
-                            className="w-full group relative px-8 py-6 bg-white text-black rounded-2xl font-bold text-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                            className="w-full group relative px-8 py-6 bg-white text-black rounded-2xl font-bold text-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden hover:scale-[1.02]"
+                            data-hover-target="true"
                         >
                             <span className="relative z-10 flex items-center justify-center gap-3">
                                 {status.type === 'sending' ? 'Sending...' : 'Send Message'}

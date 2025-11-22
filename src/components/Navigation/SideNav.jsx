@@ -43,8 +43,8 @@ const SideNav = ({ activeSection, sections, scrollToSection }) => {
                         >
                             <Icon size={32} strokeWidth={2.5} />
 
-                            {/* Tooltip */}
-                            <span className="absolute left-full ml-6 px-4 py-2 rounded-xl bg-white text-black text-sm font-bold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap pointer-events-none shadow-lg">
+                            {/* Tooltip - Now vertically centered */}
+                            <span className="absolute left-full top-1/2 -translate-y-1/2 ml-6 px-4 py-2 rounded-xl bg-white text-black text-sm font-bold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap pointer-events-none shadow-lg">
                                 {section.label}
                             </span>
                         </button>
