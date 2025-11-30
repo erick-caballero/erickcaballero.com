@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, ArrowUpRight } from 'lucide-react';
 
@@ -34,6 +34,39 @@ const projects = [
         github: "https://github.com/erick-caballero",
         demo: "#",
         image: "/voxeleditor.jpg",
+    },
+    // Additional Projects for "Show More" demo
+    {
+        title: "AI Chatbot",
+        description: "Natural language processing bot using Python.",
+        tags: ["Python", "NLP", "Flask"],
+        github: "https://github.com/erick-caballero",
+        demo: "#",
+        image: "/ai-chatbot.jpg",
+    },
+    {
+        title: "E-Commerce Platform",
+        description: "Full-stack shopping experience with Stripe integration.",
+        tags: ["Next.js", "Stripe", "PostgreSQL"],
+        github: "https://github.com/erick-caballero",
+        demo: "#",
+        image: "/ecommerce.jpg",
+    },
+    {
+        title: "Weather Dashboard",
+        description: "Real-time weather tracking with OpenWeatherMap API.",
+        tags: ["React", "API", "Tailwind"],
+        github: "https://github.com/erick-caballero",
+        demo: "#",
+        image: "/weather.jpg",
+    },
+    {
+        title: "Task Manager",
+        description: "Productivity tool with drag-and-drop kanban board.",
+        tags: ["Vue.js", "Firebase"],
+        github: "https://github.com/erick-caballero",
+        demo: "#",
+        image: "/taskmanager.jpg",
     }
 ];
 
@@ -100,9 +133,20 @@ function ProjectCard({ project, index }) {
 }
 
 export default function Projects() {
+    const [visibleCount, setVisibleCount] = useState(2);
+    const expanded = visibleCount > 4;
+
+    const toggleProjects = () => {
+        if (expanded) {
+            setVisibleCount(2);
+        } else {
+            setVisibleCount(projects.length);
+        }
+    };
+
     return (
-        <section className="min-h-screen flex flex-col justify-center py-20 pl-24 md:pl-32 pr-8 md:pr-16 overflow-y-auto">
-            <div className="max-w-[1600px] w-full mx-auto">
+        <section className="h-full flex flex-col py-20 pl-24 md:pl-32 pr-8 md:pr-16 overflow-y-auto">
+            <div className="max-w-[1600px] w-full mx-auto my-auto">
                 <div className="mb-16">
                     <h2 className="text-6xl md:text-8xl font-bold text-white mb-6 tracking-tight">
                         Projects
@@ -112,11 +156,27 @@ export default function Projects() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-20">
-                    {projects.map((project, index) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-20 mb-16">
+                    {projects.slice(0, visibleCount).map((project, index) => (
                         <ProjectCard key={index} project={project} index={index} />
                     ))}
                 </div>
+
+                {projects.length > 4 && (
+                    <div className="flex justify-center">
+                        <button
+                            onClick={toggleProjects}
+                            className="group flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-full text-white font-bold text-lg hover:bg-white hover:text-black transition-all"
+                            data-hover-target="true"
+                        >
+                            {expanded ? 'Show Less' : 'Show More Projects'}
+                            <ArrowUpRight
+                                size={24}
+                                className={`transition-transform duration-300 ${expanded ? 'rotate-[-135deg]' : 'rotate-45 group-hover:rotate-90'}`}
+                            />
+                        </button>
+                    </div>
+                )}
             </div>
         </section>
     );
