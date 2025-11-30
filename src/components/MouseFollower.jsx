@@ -1,48 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export default function MouseFollower() {
     const [hoveredElement, setHoveredElement] = useState(null);
     const [isClicking, setIsClicking] = useState(false);
-    const [targetRadius, setTargetRadius] = useState(12); // Default radius
+    const [targetRadius, setTargetRadius] = useState(12);
 
-    // Mouse position - Center Origin
+    // Mouse position
     const mouseX = useMotionValue(-100);
     const mouseY = useMotionValue(-100);
 
-    // Spring configurations
-    // Main cursor: Snappy
-    const springMain = { damping: 28, stiffness: 500 };
-    // Trails: Progressively looser
-    const springTrail1 = { damping: 30, stiffness: 450 };
-    const springTrail2 = { damping: 32, stiffness: 400 };
-    const springTrail3 = { damping: 34, stiffness: 350 };
-    const springTrail4 = { damping: 36, stiffness: 300 };
-    const springTrail5 = { damping: 38, stiffness: 250 };
-
+    // Main cursor spring
+    const springMain = { damping: 25, stiffness: 400 };
     const cursorX = useSpring(mouseX, springMain);
     const cursorY = useSpring(mouseY, springMain);
 
-    const trail1X = useSpring(mouseX, springTrail1);
-    const trail1Y = useSpring(mouseY, springTrail1);
+    // Generate trails
+    // We use more trails with tighter physics to prevent breaking into circles
+    const TRAIL_COUNT = 12;
+    const trails = [];
 
-    const trail2X = useSpring(mouseX, springTrail2);
-    const trail2Y = useSpring(mouseY, springTrail2);
+    // Create springs for each trail
+    // We use a loop in the component body - this is safe as long as TRAIL_COUNT is constant
+    for (let i = 0; i < TRAIL_COUNT; i++) {
+        const stiffness = 350 - (i * 10); // Slight decrease in stiffness
+        const damping = 25 - (i * 0.5);   // Slight decrease in damping
 
-    const trail3X = useSpring(mouseX, springTrail3);
-    const trail3Y = useSpring(mouseY, springTrail3);
-
-    const trail4X = useSpring(mouseX, springTrail4);
-    const trail4Y = useSpring(mouseY, springTrail4);
-
-    const trail5X = useSpring(mouseX, springTrail5);
-    const trail5Y = useSpring(mouseY, springTrail5);
+        trails.push({
+            x: useSpring(mouseX, { stiffness, damping }),
+            y: useSpring(mouseY, { stiffness, damping }),
+            id: i
+        });
+    }
 
     useEffect(() => {
         const moveCursor = (e) => {
             if (!hoveredElement) {
-                // Center origin: We track the EXACT mouse position
-                // The elements will translate(-50%, -50%) to center themselves
                 mouseX.set(e.clientX);
                 mouseY.set(e.clientY);
             }
@@ -52,13 +45,12 @@ export default function MouseFollower() {
             const target = e.target.closest('button, a, [data-hover-target="true"]');
             if (target) {
                 setHoveredElement(target);
-                // Capture the computed border radius
                 const style = window.getComputedStyle(target);
                 const radius = parseFloat(style.borderRadius);
                 setTargetRadius(isNaN(radius) ? 0 : radius);
             } else {
                 setHoveredElement(null);
-                setTargetRadius(12); // Reset to default circle radius
+                setTargetRadius(12);
             }
         };
 
@@ -81,98 +73,85 @@ export default function MouseFollower() {
     useEffect(() => {
         if (hoveredElement) {
             const rect = hoveredElement.getBoundingClientRect();
-            // Snap logic: Center on element
             mouseX.set(rect.left + rect.width / 2);
             mouseY.set(rect.top + rect.height / 2);
         }
     }, [hoveredElement, mouseX, mouseY]);
 
-    // Common trail styles
-    const trailStyle = "absolute top-0 left-0 rounded-full bg-white -translate-x-1/2 -translate-y-1/2";
+    const renderTrail = (trail, index) => {
+        // Taper size: Start at 28 and go down to 10
+        const size = 28 - (index * 1.5);
+
+        return (
+            <motion.div
+                key={trail.id}
+                className="absolute top-0 left-0 pointer-events-none"
+                style={{ x: trail.x, y: trail.y }}
+            >
+                <motion.div
+                    className="bg-white rounded-full"
+                    style={{ x: "-50%", y: "-50%" }}
+                    animate={{
+                        width: size,
+                        height: size,
+                    }}
+                />
+            </motion.div>
+        );
+    };
 
     return (
-        <motion.div
-            className="fixed inset-0 pointer-events-none z-[9999]"
-            animate={{
-                opacity: hoveredElement ? 0.3 : 0.5,
-            }}
-        >
-            {/* Trail 5 (Smallest, furthest back) */}
-            <motion.div
-                className={trailStyle}
-                style={{ x: trail5X, y: trail5Y }}
-                animate={{
-                    width: hoveredElement ? hoveredElement.getBoundingClientRect().width - 8 : 14,
-                    height: hoveredElement ? hoveredElement.getBoundingClientRect().height - 8 : 14,
-                    borderRadius: hoveredElement ? targetRadius : 999,
-                    opacity: hoveredElement ? 0 : 1,
-                }}
-            />
+        <>
+            {/* SVG Filter for Gooey Effect */}
+            <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+                <defs>
+                    <filter id="goo">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+                        <feColorMatrix
+                            in="blur"
+                            mode="matrix"
+                            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 35 -15"
+                            result="goo"
+                        />
+                        <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+                    </filter>
+                </defs>
+            </svg>
 
-            {/* Trail 4 */}
-            <motion.div
-                className={trailStyle}
-                style={{ x: trail4X, y: trail4Y }}
-                animate={{
-                    width: hoveredElement ? hoveredElement.getBoundingClientRect().width - 8 : 16,
-                    height: hoveredElement ? hoveredElement.getBoundingClientRect().height - 8 : 16,
-                    borderRadius: hoveredElement ? targetRadius : 999,
-                    opacity: hoveredElement ? 0 : 1,
+            <div
+                className="fixed inset-0 pointer-events-none z-[9999]"
+                style={{
+                    filter: hoveredElement ? 'none' : 'url(#goo)',
                 }}
-            />
+            >
+                {/* Trails */}
+                {!hoveredElement && trails.map((trail, i) => renderTrail(trail, i))}
 
-            {/* Trail 3 */}
-            <motion.div
-                className={trailStyle}
-                style={{ x: trail3X, y: trail3Y }}
-                animate={{
-                    width: hoveredElement ? hoveredElement.getBoundingClientRect().width - 8 : 18,
-                    height: hoveredElement ? hoveredElement.getBoundingClientRect().height - 8 : 18,
-                    borderRadius: hoveredElement ? targetRadius : 999,
-                    opacity: hoveredElement ? 0 : 1,
-                }}
-            />
-
-            {/* Trail 2 */}
-            <motion.div
-                className={trailStyle}
-                style={{ x: trail2X, y: trail2Y }}
-                animate={{
-                    width: hoveredElement ? hoveredElement.getBoundingClientRect().width - 8 : 20,
-                    height: hoveredElement ? hoveredElement.getBoundingClientRect().height - 8 : 20,
-                    borderRadius: hoveredElement ? targetRadius : 999,
-                    opacity: hoveredElement ? 0 : 1,
-                }}
-            />
-
-            {/* Trail 1 */}
-            <motion.div
-                className={trailStyle}
-                style={{ x: trail1X, y: trail1Y }}
-                animate={{
-                    width: hoveredElement ? hoveredElement.getBoundingClientRect().width - 8 : 22,
-                    height: hoveredElement ? hoveredElement.getBoundingClientRect().height - 8 : 22,
-                    borderRadius: hoveredElement ? targetRadius : 999,
-                    opacity: hoveredElement ? 0 : 1,
-                }}
-            />
-
-            {/* Main Cursor */}
-            <motion.div
-                className="absolute top-0 left-0 bg-white -translate-x-1/2 -translate-y-1/2"
-                style={{ x: cursorX, y: cursorY }}
-                animate={{
-                    width: hoveredElement ? hoveredElement.getBoundingClientRect().width - 8 : 24,
-                    height: hoveredElement ? hoveredElement.getBoundingClientRect().height - 8 : 24,
-                    borderRadius: hoveredElement ? targetRadius : 999,
-                    scale: isClicking ? 0.9 : 1,
-                }}
-                transition={{
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 28
-                }}
-            />
-        </motion.div>
+                {/* Main Cursor */}
+                <motion.div
+                    className="absolute top-0 left-0 pointer-events-none"
+                    style={{ x: cursorX, y: cursorY }}
+                >
+                    <motion.div
+                        className="bg-white"
+                        style={{ x: "-50%", y: "-50%" }}
+                        animate={{
+                            width: hoveredElement ? hoveredElement.getBoundingClientRect().width : 32,
+                            height: hoveredElement ? hoveredElement.getBoundingClientRect().height : 32,
+                            borderRadius: hoveredElement ? targetRadius : 999,
+                            scale: isClicking ? 0.9 : 1,
+                            opacity: hoveredElement ? 0.3 : 1,
+                        }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 28,
+                            duration: 0.1
+                        }}
+                    />
+                </motion.div>
+            </div>
+        </>
     );
 }
+
