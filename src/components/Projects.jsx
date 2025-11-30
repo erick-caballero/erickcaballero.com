@@ -163,7 +163,7 @@ export default function Projects() {
                 </div>
 
                 {projects.length > 4 && (
-                    <div className="flex justify-center">
+                    <div className="flex justify-center pb-8">
                         <button
                             onClick={toggleProjects}
                             className="group flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-full text-white font-bold text-lg hover:bg-white hover:text-black transition-all"
