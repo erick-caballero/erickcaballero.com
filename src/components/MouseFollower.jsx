@@ -16,22 +16,23 @@ export default function MouseFollower() {
     const cursorY = useSpring(mouseY, springMain);
 
     // Generate trails
-    // Increased count for longer trail
     const TRAIL_COUNT = 32;
     const trails = [];
 
     // Create springs for each trail
     for (let i = 0; i < TRAIL_COUNT; i++) {
-        // Physics Tuning for Circular Motion:
-        // 1. Slower stiffness decay: Keeps the tail closer to the head.
-        // 2. HIGHER damping: Prevents the "swinging" effect during turns (orbiting).
-        //    This keeps the trails strictly on the path instead of flying out.
-        const stiffness = 400 - (i * 5);
-        const damping = 30 + (i * 0.5);
+        // HEAD (i=0) needs to be instant to act as the cursor
+        // TAIL needs to be loose
+
+        // Stiffness: Start extremely high (1000) for the head, decay to 100
+        const stiffness = 800 - (i * 20);
+
+        // Damping: Start high (50) to prevent overshoot at the head, decay to 20
+        const damping = 50 - (i * 1);
 
         trails.push({
-            x: useSpring(mouseX, { stiffness, damping }),
-            y: useSpring(mouseY, { stiffness, damping }),
+            x: useSpring(mouseX, { stiffness: Math.max(stiffness, 50), damping: Math.max(damping, 10) }),
+            y: useSpring(mouseY, { stiffness: Math.max(stiffness, 50), damping: Math.max(damping, 10) }),
             id: i
         });
     }
@@ -109,7 +110,6 @@ export default function MouseFollower() {
             <svg style={{ position: 'absolute', width: 0, height: 0 }}>
                 <defs>
                     <filter id="goo">
-                        {/* Increased deviation slightly to help merge the gap */}
                         <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
                         <feColorMatrix
                             in="blur"
@@ -126,34 +126,38 @@ export default function MouseFollower() {
                 className="fixed inset-0 pointer-events-none z-[9999]"
                 style={{
                     filter: hoveredElement ? 'none' : 'url(#goo)',
+                    opacity: hoveredElement ? 1 : 0.6, // Apply opacity to container to bypass Gooey filter threshold
+                    transition: 'opacity 0.2s ease'
                 }}
             >
-                {/* Trails */}
+                {/* Trails - Render ONLY when moving (acts as the cursor) */}
                 {!hoveredElement && trails.map((trail, i) => renderTrail(trail, i))}
 
-                {/* Main Cursor */}
-                <motion.div
-                    className="absolute top-0 left-0 pointer-events-none"
-                    style={{ x: cursorX, y: cursorY }}
-                >
+                {/* Main Cursor - Render ONLY when hovering (snaps to element) */}
+                {hoveredElement && (
                     <motion.div
-                        className="bg-white"
-                        style={{ x: "-50%", y: "-50%" }}
-                        animate={{
-                            width: hoveredElement ? hoveredElement.getBoundingClientRect().width : 40, // Bigger base size
-                            height: hoveredElement ? hoveredElement.getBoundingClientRect().height : 40,
-                            borderRadius: hoveredElement ? targetRadius : 999,
-                            scale: isClicking ? 0.9 : 1,
-                            opacity: hoveredElement ? 0.3 : 0.6, // Reduced opacity (was 1)
-                        }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 500,
-                            damping: 28,
-                            duration: 0.1
-                        }}
-                    />
-                </motion.div>
+                        className="absolute top-0 left-0 pointer-events-none"
+                        style={{ x: cursorX, y: cursorY }}
+                    >
+                        <motion.div
+                            className="bg-white"
+                            style={{ x: "-50%", y: "-50%" }}
+                            animate={{
+                                width: hoveredElement.getBoundingClientRect().width,
+                                height: hoveredElement.getBoundingClientRect().height,
+                                borderRadius: targetRadius,
+                                scale: isClicking ? 0.9 : 1,
+                                opacity: 0.3, // Lower opacity for the highlight box
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 500,
+                                damping: 28,
+                                duration: 0.1
+                            }}
+                        />
+                    </motion.div>
+                )}
             </div>
         </>
     );
