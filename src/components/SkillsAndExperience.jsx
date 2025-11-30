@@ -1,7 +1,7 @@
 import React from 'react';
 import { Download, Briefcase, GraduationCap, ArrowUpRight } from 'lucide-react';
 
-const experience = [
+const workExperience = [
     {
         company: "Tech Company Inc.",
         role: "Software Engineer Intern",
@@ -15,9 +15,12 @@ const experience = [
         period: "2023 - Present",
         description: "Delivering custom web solutions. Specialized in Next.js and Tailwind CSS.",
         type: 'work'
-    },
+    }
+];
+
+const education = [
     {
-        company: "Georgia Tech",
+        school: "Georgia Tech",
         role: "Computer Science Student",
         period: "2022 - 2026",
         description: "Specializing in Intelligence and Media. Coursework in Algorithms and AI.",
@@ -66,26 +69,63 @@ export default function SkillsAndExperience() {
                 </div>
 
                 {/* Right Column: Timeline */}
+                {/* Right Column: Timeline */}
                 <div className="lg:col-span-7 flex flex-col justify-center space-y-8">
-                    {experience.map((item, index) => (
-                        <div key={index} className="group relative pl-8 border-l-2 border-white/10 hover:border-white transition-colors duration-500">
-                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-black border-2 border-white/20 group-hover:border-white group-hover:bg-white transition-all duration-500" />
+                    {/* Work Experience */}
+                    <div className="space-y-8">
+                        {workExperience.map((item, index) => (
+                            <div key={index} className="group relative pl-8 border-l-2 border-white/10 hover:border-white transition-colors duration-500">
+                                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-black border-2 border-white/20 group-hover:border-white group-hover:bg-white transition-all duration-500" />
 
-                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2">
-                                <h3 className="text-3xl font-bold text-white group-hover:text-white/80 transition-colors">
-                                    {item.company}
-                                </h3>
-                                <span className="text-lg font-mono text-gray-500 mt-1 sm:mt-0">
-                                    {item.period}
-                                </span>
+                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2">
+                                    <h3 className="text-3xl font-bold text-white group-hover:text-white/80 transition-colors">
+                                        {item.company}
+                                    </h3>
+                                    <span className="text-lg font-mono text-gray-500 mt-1 sm:mt-0">
+                                        {item.period}
+                                    </span>
+                                </div>
+
+                                <p className="text-xl text-white/60 font-medium mb-2">{item.role}</p>
+                                <p className="text-lg text-gray-400 leading-relaxed max-w-2xl">
+                                    {item.description}
+                                </p>
                             </div>
+                        ))}
+                    </div>
 
-                            <p className="text-xl text-white/60 font-medium mb-2">{item.role}</p>
-                            <p className="text-lg text-gray-400 leading-relaxed max-w-2xl">
-                                {item.description}
-                            </p>
-                        </div>
-                    ))}
+                    {/* Divider */}
+                    <div className="py-4 flex items-center gap-4">
+                        <div className="h-px bg-white/10 flex-grow" />
+                        <span className="text-white/30 text-sm font-mono uppercase tracking-widest">Education</span>
+                        <div className="h-px bg-white/10 flex-grow" />
+                    </div>
+
+                    {/* Education */}
+                    <div className="space-y-8">
+                        {education.map((item, index) => (
+                            <div key={index} className="group relative pl-8 border-l-2 border-white/10 hover:border-[#FFD700] transition-colors duration-500">
+                                {/* Custom Icon for Education */}
+                                <div className="absolute -left-[11px] top-0 w-6 h-6 rounded-full bg-black border-2 border-white/20 group-hover:border-[#FFD700] group-hover:bg-[#FFD700] transition-all duration-500 flex items-center justify-center">
+                                    <GraduationCap size={12} className="text-transparent group-hover:text-black transition-colors duration-300" />
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2">
+                                    <h3 className="text-3xl font-bold text-white group-hover:text-[#FFD700] transition-colors">
+                                        {item.school}
+                                    </h3>
+                                    <span className="text-lg font-mono text-gray-500 mt-1 sm:mt-0">
+                                        {item.period}
+                                    </span>
+                                </div>
+
+                                <p className="text-xl text-white/60 font-medium mb-2">{item.role}</p>
+                                <p className="text-lg text-gray-400 leading-relaxed max-w-2xl">
+                                    {item.description}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
             </div>

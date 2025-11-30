@@ -49,7 +49,7 @@ export default function Contact() {
             <div className="max-w-[1600px] w-full mx-auto grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
 
                 {/* Text Side */}
-                <div className="lg:col-span-5 space-y-12">
+                <div className="lg:col-span-5 space-y-12 lg:-ml-20">
                     <h2 className="text-7xl md:text-9xl font-bold text-white tracking-tight leading-none pb-4">
                         Let's <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">Collaborate.</span>
