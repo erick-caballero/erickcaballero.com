@@ -5,7 +5,7 @@ import { ArrowDown } from 'lucide-react';
 export default function Hero({ scrollToSection }) {
     return (
         <section className="h-screen flex flex-col justify-center relative overflow-hidden pl-24 md:pl-32 pr-8">
-            <div className="max-w-[1600px] w-full mx-auto z-10">
+            <div className="max-w-[1600px] w-full mx-auto z-10 h-full flex flex-col justify-center relative">
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -40,20 +40,20 @@ export default function Hero({ scrollToSection }) {
                         </button>
                     </div>
                 </motion.div>
+
+                <motion.div
+                    className="absolute bottom-8 left-[168px] -translate-x-1/2 text-white/30 animate-bounce cursor-pointer"
+                    onClick={() => scrollToSection(1)}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1, duration: 1 }}
+                >
+                    <ArrowDown size={64} />
+                </motion.div>
             </div>
 
             {/* Background Elements */}
             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-white/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-
-            <motion.div
-                className="absolute bottom-12 left-32 text-white/30 animate-bounce cursor-pointer"
-                onClick={() => scrollToSection(1)}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 1 }}
-            >
-                <ArrowDown size={32} />
-            </motion.div>
         </section>
     );
 }
