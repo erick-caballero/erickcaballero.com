@@ -16,15 +16,16 @@ export default function MouseFollower() {
     const cursorY = useSpring(mouseY, springMain);
 
     // Generate trails
-    // We use more trails with tighter physics to prevent breaking into circles
-    const TRAIL_COUNT = 12;
+    // Increased count and tighter physics to prevent separation at high speeds (especially horizontal)
+    const TRAIL_COUNT = 20;
     const trails = [];
 
     // Create springs for each trail
-    // We use a loop in the component body - this is safe as long as TRAIL_COUNT is constant
     for (let i = 0; i < TRAIL_COUNT; i++) {
-        const stiffness = 350 - (i * 10); // Slight decrease in stiffness
-        const damping = 25 - (i * 0.5);   // Slight decrease in damping
+        // We start stiffness much closer to the main cursor (400) to keep the "neck" connected
+        // 400 -> 390 -> 380 ...
+        const stiffness = 400 - (i * 10);
+        const damping = 28 - (i * 0.5);
 
         trails.push({
             x: useSpring(mouseX, { stiffness, damping }),
@@ -79,8 +80,9 @@ export default function MouseFollower() {
     }, [hoveredElement, mouseX, mouseY]);
 
     const renderTrail = (trail, index) => {
-        // Taper size: Start at 28 and go down to 10
-        const size = 28 - (index * 1.5);
+        // Taper size: Start at 28 and go down to 6
+        // Slower taper since we have more trails
+        const size = 28 * (1 - index / TRAIL_COUNT);
 
         return (
             <motion.div
@@ -106,7 +108,8 @@ export default function MouseFollower() {
             <svg style={{ position: 'absolute', width: 0, height: 0 }}>
                 <defs>
                     <filter id="goo">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+                        {/* Increased deviation slightly to help merge the gap */}
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
                         <feColorMatrix
                             in="blur"
                             mode="matrix"
@@ -154,4 +157,3 @@ export default function MouseFollower() {
         </>
     );
 }
-
