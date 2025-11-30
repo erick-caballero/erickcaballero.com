@@ -16,16 +16,18 @@ export default function MouseFollower() {
     const cursorY = useSpring(mouseY, springMain);
 
     // Generate trails
-    // Increased count and tighter physics to prevent separation at high speeds (especially horizontal)
-    const TRAIL_COUNT = 20;
+    // Increased count for longer trail
+    const TRAIL_COUNT = 32;
     const trails = [];
 
     // Create springs for each trail
     for (let i = 0; i < TRAIL_COUNT; i++) {
-        // We start stiffness much closer to the main cursor (400) to keep the "neck" connected
-        // 400 -> 390 -> 380 ...
-        const stiffness = 400 - (i * 10);
-        const damping = 28 - (i * 0.5);
+        // Physics Tuning for Circular Motion:
+        // 1. Slower stiffness decay: Keeps the tail closer to the head.
+        // 2. HIGHER damping: Prevents the "swinging" effect during turns (orbiting).
+        //    This keeps the trails strictly on the path instead of flying out.
+        const stiffness = 400 - (i * 5);
+        const damping = 30 + (i * 0.5);
 
         trails.push({
             x: useSpring(mouseX, { stiffness, damping }),
@@ -80,9 +82,8 @@ export default function MouseFollower() {
     }, [hoveredElement, mouseX, mouseY]);
 
     const renderTrail = (trail, index) => {
-        // Taper size: Start at 28 and go down to 6
-        // Slower taper since we have more trails
-        const size = 28 * (1 - index / TRAIL_COUNT);
+        // Taper size: Start at 40 (bigger) and go down to 0
+        const size = 40 * (1 - index / TRAIL_COUNT);
 
         return (
             <motion.div
@@ -139,11 +140,11 @@ export default function MouseFollower() {
                         className="bg-white"
                         style={{ x: "-50%", y: "-50%" }}
                         animate={{
-                            width: hoveredElement ? hoveredElement.getBoundingClientRect().width : 32,
-                            height: hoveredElement ? hoveredElement.getBoundingClientRect().height : 32,
+                            width: hoveredElement ? hoveredElement.getBoundingClientRect().width : 40, // Bigger base size
+                            height: hoveredElement ? hoveredElement.getBoundingClientRect().height : 40,
                             borderRadius: hoveredElement ? targetRadius : 999,
                             scale: isClicking ? 0.9 : 1,
-                            opacity: hoveredElement ? 0.3 : 1,
+                            opacity: hoveredElement ? 0.3 : 0.6, // Reduced opacity (was 1)
                         }}
                         transition={{
                             type: "spring",
