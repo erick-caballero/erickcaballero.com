@@ -34,16 +34,16 @@ const skills = [
 
 export default function SkillsAndExperience() {
     return (
-        <section className="h-full flex flex-col py-20 pl-24 md:pl-32 pr-8 md:pr-16 overflow-y-auto">
-            <div className="max-w-[1600px] w-full mx-auto grid lg:grid-cols-12 gap-16 lg:gap-24 my-auto">
+        <section id="experience-skills" className="h-auto lg:h-full flex flex-col py-12 lg:py-20 px-6 md:pl-32 md:pr-16 lg:overflow-y-auto">
+            <div className="max-w-[1600px] w-full mx-auto grid lg:grid-cols-12 gap-12 lg:gap-24 my-auto">
 
                 {/* Left Column: Header & Skills */}
                 <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-12">
                     <div>
-                        <h2 className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-tight">
+                        <h2 className="text-6xl md:text-6xl lg:text-8xl font-bold text-white mb-8 tracking-tighter md:tracking-tight">
                             Experience
                         </h2>
-                        <p className="text-2xl text-gray-400 leading-relaxed mb-10 max-w-md">
+                        <p className="text-lg md:text-2xl text-gray-400 leading-relaxed mb-10 max-w-md">
                             My professional journey and education.
                         </p>
                         <a

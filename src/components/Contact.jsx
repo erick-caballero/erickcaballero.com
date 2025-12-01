@@ -42,15 +42,15 @@ export default function Contact() {
         }
     };
 
-    const inputClasses = "w-full bg-transparent border-b-2 border-white/20 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-white transition-all text-2xl font-medium font-sans";
+    const inputClasses = "w-full bg-transparent border-b-2 border-white/20 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-white transition-all text-xl lg:text-2xl font-medium font-sans";
 
     return (
-        <section className="h-full flex flex-col justify-center py-10 relative overflow-hidden pl-24 md:pl-32 pr-8">
-            <div className="max-w-[1600px] w-full mx-auto grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+        <section id="contact" className="h-auto lg:h-full flex flex-col justify-center pt-12 pb-32 lg:py-10 relative overflow-hidden px-6 md:pl-32 md:pr-8">
+            <div className="max-w-[1600px] w-full mx-auto grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
 
                 {/* Text Side */}
-                <div className="lg:col-span-5 space-y-12 lg:-ml-20">
-                    <h2 className="text-7xl md:text-9xl font-bold text-white tracking-tight leading-none pb-4">
+                <div className="lg:col-span-5 space-y-8 lg:space-y-12 lg:-ml-20">
+                    <h2 className="text-7xl md:text-8xl lg:text-9xl font-bold text-white tracking-tighter md:tracking-tight leading-none pb-4">
                         Let's <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">Collaborate.</span>
                     </h2>
@@ -58,11 +58,11 @@ export default function Contact() {
                     <div className="space-y-8">
                         <a
                             href="mailto:me@erickcaballero.com"
-                            className="inline-flex items-center gap-3 text-3xl md:text-4xl text-white hover:text-gray-300 transition-colors group font-medium"
+                            className="inline-flex items-center gap-3 text-2xl md:text-4xl text-white hover:text-gray-300 transition-colors group font-medium"
                             data-hover-target="true"
                         >
-                            <Mail size={40} className="text-white" />
-                            <span className="border-b-2 border-transparent group-hover:border-white transition-colors">me@erickcaballero.com</span>
+                            <Mail size={32} className="text-white md:w-10 md:h-10" />
+                            <span className="border-b-2 border-transparent group-hover:border-white transition-colors break-all md:break-normal">me@erickcaballero.com</span>
                         </a>
 
                         <div className="flex gap-6">
@@ -89,8 +89,8 @@ export default function Contact() {
                 </div>
 
                 {/* Form Side */}
-                <div className="lg:col-span-7 bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-sm">
-                    <form onSubmit={handleSubmit} className="space-y-10">
+                <div className="lg:col-span-7 bg-white/5 p-6 lg:p-12 rounded-3xl lg:rounded-[3rem] border border-white/10 backdrop-blur-sm">
+                    <form onSubmit={handleSubmit} className="space-y-8 lg:space-y-10">
                         <div>
                             <input
                                 type="text"

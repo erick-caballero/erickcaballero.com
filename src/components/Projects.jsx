@@ -145,18 +145,18 @@ export default function Projects() {
     };
 
     return (
-        <section className="h-full flex flex-col py-20 pl-24 md:pl-32 pr-8 md:pr-16 overflow-y-auto">
+        <section id="projects" className="h-auto lg:h-full flex flex-col py-12 lg:py-20 px-6 md:pl-32 md:pr-16 lg:overflow-y-auto">
             <div className="max-w-[1600px] w-full mx-auto my-auto">
-                <div className="mb-16">
-                    <h2 className="text-6xl md:text-8xl font-bold text-white mb-6 tracking-tight">
+                <div className="mb-12 lg:mb-16">
+                    <h2 className="text-6xl md:text-6xl lg:text-8xl font-bold text-white mb-4 lg:mb-6 tracking-tighter md:tracking-tight">
                         Projects
                     </h2>
-                    <p className="text-2xl text-gray-400 max-w-2xl">
+                    <p className="text-lg md:text-2xl text-gray-400 max-w-2xl">
                         A selection of my recent work.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-20 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-12 lg:gap-y-20 mb-16">
                     {projects.slice(0, visibleCount).map((project, index) => (
                         <ProjectCard key={index} project={project} index={index} />
                     ))}

@@ -12,6 +12,7 @@ import Hero from './components/Hero';
 import Projects from './components/Projects';
 import SkillsAndExperience from './components/SkillsAndExperience';
 import Contact from './components/Contact';
+import Navbar from './components/Navbar';
 
 export default function App() {
     // Default to true (Dark Mode) - keeping logic but enforcing dark for this design mostly
@@ -72,6 +73,10 @@ export default function App() {
                                 <Contact />
                             </div>
                         </FullPageScroll>
+
+                        <div className="block lg:hidden">
+                            <Navbar />
+                        </div>
 
                     </div>
                 </ErrorBoundary>

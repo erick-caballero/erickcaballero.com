@@ -36,7 +36,7 @@ const FullPageScroll = ({ children }) => {
     };
 
     return (
-        <div className="relative w-full h-screen overflow-hidden bg-dark-bg text-dark-text">
+        <div className="relative w-full h-screen lg:overflow-hidden overflow-auto bg-dark-bg text-dark-text">
             <SideNav
                 activeSection={activeSection}
                 sections={sectionIds}
@@ -45,13 +45,13 @@ const FullPageScroll = ({ children }) => {
 
             <div
                 ref={containerRef}
-                className="h-full w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar"
+                className="h-full w-full lg:overflow-y-scroll lg:snap-y lg:snap-mandatory scroll-smooth no-scrollbar"
                 style={{ scrollBehavior: 'smooth' }}
             >
                 {sections.map((child, index) => (
                     <section
                         key={index}
-                        className="h-screen w-full snap-start snap-always flex items-center justify-center relative overflow-hidden"
+                        className="min-h-screen lg:h-screen w-full lg:snap-start lg:snap-always flex items-center justify-center relative overflow-hidden"
                     >
                         {child}
                     </section>
