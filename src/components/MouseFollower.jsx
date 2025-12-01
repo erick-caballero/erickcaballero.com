@@ -24,14 +24,16 @@ export default function MouseFollower() {
     // Create springs for each trail
     for (let i = 0; i < TRAIL_COUNT; i++) {
         // HEAD (i=0) needs to be instant to act as the cursor
-        // TAIL needs to be loose to create the blob effect even at low speeds
+        // TAIL needs to be loose but OVERDAMPED to prevent the "slingshot" effect
 
-        // Stiffness: Start high (800) for the head, decay to 50 for the tail
-        // This steep decay ensures the tail drags behind significantly
-        const stiffness = Math.max(800 - (i * 18), 50);
+        // Stiffness: High for head (1000) for responsiveness, decays to 120 for tail
+        // Higher tail stiffness (120 vs 50) keeps the blob more cohesive
+        const stiffness = Math.max(1000 - (i * 20), 120);
 
-        // Damping: Start high (50) to prevent overshoot at the head, decay to 10
-        const damping = Math.max(50 - (i * 1), 10);
+        // Damping: 60 for head, decays to 40 for tail
+        // Critical damping for k=120 is ~22. Damping=40 means ratio ~1.8 (Overdamped)
+        // This prevents the tail from flying past the head when stopping
+        const damping = Math.max(60 - (i * 0.5), 40);
 
         trails.push({
             x: useSpring(mouseX, { stiffness, damping }),
