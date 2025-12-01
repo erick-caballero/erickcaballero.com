@@ -50,7 +50,7 @@ export default function Contact() {
 
                 {/* Text Side */}
                 <div className="lg:col-span-5 space-y-8 lg:space-y-12 lg:-ml-20">
-                    <h2 className="text-7xl md:text-8xl lg:text-9xl font-bold text-white tracking-tighter md:tracking-tight leading-none pb-4">
+                    <h2 className="text-6xl md:text-8xl lg:text-9xl font-bold text-white tracking-tighter md:tracking-tight leading-none pb-4">
                         Let's <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">Collaborate.</span>
                     </h2>

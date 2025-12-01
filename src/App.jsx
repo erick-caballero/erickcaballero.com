@@ -40,12 +40,14 @@ export default function App() {
                 </Helmet>
 
                 <ErrorBoundary>
-                    <MouseFollower />
+                    <div className="hidden md:block">
+                        <MouseFollower />
+                    </div>
                     <div className="relative overflow-hidden selection:bg-dark-primary selection:text-white font-sans text-dark-text bg-dark-bg">
 
                         {/* Global Spotlight Effect */}
                         <div
-                            className="pointer-events-none fixed inset-0 z-30 transition duration-300"
+                            className="hidden md:block pointer-events-none fixed inset-0 z-30 transition duration-300"
                             style={{
                                 background: `radial-gradient(600px at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.15), transparent 80%)`
                             }}
