@@ -19,7 +19,7 @@ export default function Hero({ scrollToSection }) {
                     </h1>
 
                     <p className="text-2xl md:text-3xl text-gray-400 max-w-2xl font-medium leading-relaxed mb-12">
-                        Software Engineer building digital experiences that matter.
+                        Software Engineer building experiences that actually matter.
                     </p>
 
                     <div className="flex gap-6">

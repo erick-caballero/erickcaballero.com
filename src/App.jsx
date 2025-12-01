@@ -34,7 +34,7 @@ export default function App() {
         <HelmetProvider>
             <AppContext.Provider value={{ darkMode, toggleDark: () => { } }}>
                 <Helmet>
-                    <title>Erick Caballero | Software Engineer</title>
+                    <title>Erick Caballero's Portfolio</title>
                     <meta name="theme-color" content="#0a0a0a" />
                 </Helmet>
 

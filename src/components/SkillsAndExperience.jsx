@@ -3,27 +3,27 @@ import { Download, Briefcase, GraduationCap, ArrowUpRight } from 'lucide-react';
 
 const workExperience = [
     {
-        company: "Tech Company Inc.",
+        company: "Team Fray.",
         role: "Software Engineer Intern",
         period: "2024",
-        description: "Optimized core services and built scalable features using React and Node.js.",
+        description: "Optimized player analytics by building a web-based dashboard, enhancing accessibility for team members.",
         type: 'work'
     },
     {
-        company: "Freelance",
-        role: "Full Stack Developer",
-        period: "2023 - Present",
-        description: "Delivering custom web solutions. Specialized in Next.js and Tailwind CSS.",
+        company: "College of Coastal Georgia",
+        role: "Research Assistant",
+        period: "2024 - 2025",
+        description: "Contributed to the development of algorithms focused on sentiment analysis.",
         type: 'work'
     }
 ];
 
 const education = [
     {
-        school: "Georgia Tech",
-        role: "Computer Science Student",
-        period: "2022 - 2026",
-        description: "Specializing in Intelligence and Media. Coursework in Algorithms and AI.",
+        school: "Georgia Institute of Technology",
+        role: "Bachelor of Science in Computer Science",
+        period: "2023 - 2026",
+        description: "Specializing in Theory and Media. Coursework in Algorithms and AI.",
         type: 'edu'
     }
 ];
@@ -44,7 +44,7 @@ export default function SkillsAndExperience() {
                             Experience
                         </h2>
                         <p className="text-2xl text-gray-400 leading-relaxed mb-10 max-w-md">
-                            My professional journey and technical arsenal.
+                            My professional journey and education.
                         </p>
                         <a
                             href="/resume.pdf"
@@ -68,8 +68,6 @@ export default function SkillsAndExperience() {
                     </div>
                 </div>
 
-                {/* Right Column: Timeline */}
-                {/* Right Column: Timeline */}
                 <div className="lg:col-span-7 flex flex-col justify-center space-y-8">
                     {/* Work Experience */}
                     <div className="space-y-8">

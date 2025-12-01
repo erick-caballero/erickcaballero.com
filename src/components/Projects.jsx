@@ -5,45 +5,45 @@ import { Github, ExternalLink, ArrowUpRight } from 'lucide-react';
 const projects = [
     {
         title: "Blackjack Game",
-        description: "Java-based game with GUI and AI dealer.",
-        tags: ["Java", "Swing", "OOP"],
-        github: "https://github.com/erick-caballero",
+        description: "Blackjack game for the M5StickC Plus2 with a betting system, GUI, and automated dealer.",
+        tags: ["C++", "Arduino"],
+        github: "https://github.com/erick-caballero/blackjack",
         demo: "#",
         image: "/blackjack.jpg",
     },
     {
-        title: "Graph Algo Trainer",
-        description: "Interactive visualizer for BFS, DFS, Dijkstra.",
+        title: "Graphing Algorithm Trainer",
+        description: "Interactive visualizer for BFS, DFS, Dijkstra algorithms.",
         tags: ["JS", "HTML/CSS"],
-        github: "https://github.com/erick-caballero",
-        demo: "#",
+        github: "https://github.com/erick-caballero/graphalgotrainer",
+        demo: "https://erick-caballero.github.io/graphalgotrainer/",
         image: "/graphalgotrainer.jpg",
     },
     {
         title: "MoneyParce",
         description: "Personal finance tracker for budgeting.",
-        tags: ["React", "Node.js"],
-        github: "https://github.com/erick-caballero",
-        demo: "#",
+        tags: ["Python", "Django", "HTML/CSS"],
+        github: "https://github.com/erick-caballero/MoneyParse2",
+        demo: "https://money-parse2-7hc8.vercel.app/",
         image: "/moneyparce.jpg",
     },
     {
         title: "Voxel Editor",
         description: "3D modeling tool with C++ and OpenGL.",
-        tags: ["C++", "OpenGL"],
-        github: "https://github.com/erick-caballero",
-        demo: "#",
+        tags: ["Three.js", "HTML/CS"],
+        github: "https://github.com/erick-caballero/voxeleditor",
+        demo: "https://erick-caballero.github.io/voxeleditor/",
         image: "/voxeleditor.jpg",
     },
     // Additional Projects for "Show More" demo
     {
-        title: "AI Chatbot",
-        description: "Natural language processing bot using Python.",
-        tags: ["Python", "NLP", "Flask"],
+        title: "Coming Soon",
+        description: "I'll have to get back to you honestly.",
+        tags: ["IDK"],
         github: "https://github.com/erick-caballero",
         demo: "#",
         image: "/ai-chatbot.jpg",
-    },
+    }/*,
     {
         title: "E-Commerce Platform",
         description: "Full-stack shopping experience with Stripe integration.",
@@ -67,7 +67,7 @@ const projects = [
         github: "https://github.com/erick-caballero",
         demo: "#",
         image: "/taskmanager.jpg",
-    }
+    }*/
 ];
 
 function ProjectCard({ project, index }) {
@@ -95,7 +95,7 @@ function ProjectCard({ project, index }) {
                     className="absolute top-4 right-4 p-3 bg-white text-black rounded-full opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:scale-110"
                     data-hover-target="true"
                 >
-                    <Github size={20} />
+                    <Github size={40} />
                 </a>
             </div>
 
@@ -152,7 +152,7 @@ export default function Projects() {
                         Projects
                     </h2>
                     <p className="text-2xl text-gray-400 max-w-2xl">
-                        A selection of my recent work in software engineering and design.
+                        A selection of my recent work.
                     </p>
                 </div>
 
