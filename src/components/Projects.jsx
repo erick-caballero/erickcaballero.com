@@ -110,10 +110,10 @@ function ProjectCard({ project, index }) {
                         <a
                             href={project.demo}
                             target="_blank"
-                            className="flex items-center gap-2 text-white font-bold bg-white/10 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all"
+                            className="flex items-center gap-2 text-white font-bold bg-white/10 px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-white hover:text-black transition-all"
                             data-hover-target="true"
                         >
-                            <span>Visit Site</span>
+                            <span><span className="md:hidden">Visit</span><span className="hidden md:inline">Visit Site</span></span>
                             <ArrowUpRight size={20} />
                         </a>
                     )}

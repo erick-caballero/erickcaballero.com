@@ -29,14 +29,17 @@ const FullPageScroll = ({ children }) => {
         const container = containerRef.current;
         if (!container) return;
 
-        container.scrollTo({
-            top: index * window.innerHeight,
-            behavior: 'smooth'
-        });
+        const section = container.children[index];
+        if (section) {
+            container.scrollTo({
+                top: section.offsetTop,
+                behavior: 'smooth'
+            });
+        }
     };
 
     return (
-        <div className="relative w-full h-screen lg:overflow-hidden overflow-auto bg-dark-bg text-dark-text">
+        <div className="relative w-full h-screen overflow-hidden bg-dark-bg text-dark-text">
             <SideNav
                 activeSection={activeSection}
                 sections={sectionIds}
@@ -45,7 +48,7 @@ const FullPageScroll = ({ children }) => {
 
             <div
                 ref={containerRef}
-                className="h-full w-full lg:overflow-y-scroll lg:snap-y lg:snap-mandatory scroll-smooth no-scrollbar"
+                className="h-full w-full overflow-y-auto lg:overflow-y-scroll lg:snap-y lg:snap-mandatory scroll-smooth no-scrollbar"
                 style={{ scrollBehavior: 'smooth' }}
             >
                 {sections.map((child, index) => (
