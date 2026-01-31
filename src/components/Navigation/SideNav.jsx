@@ -6,8 +6,8 @@ const SideNav = ({ activeSection, sections, scrollToSection }) => {
 
     return (
         <>
-            {/* Navigation Dots (Leftmost) - Keeping these as they are subtle indicators */}
-            <div className="fixed left-10 top-1/2 transform -translate-y-1/2 z-50 hidden lg:flex flex-col gap-8">
+            {/* Navigation Dots (Leftmost) - Hide on standard laptops, show on ultra-wide */}
+            <div className="fixed left-10 top-1/2 transform -translate-y-1/2 z-50 hidden min-[2050px]:flex flex-col gap-8">
                 {sections.map((section, index) => (
                     <button
                         key={section.id}
@@ -25,8 +25,8 @@ const SideNav = ({ activeSection, sections, scrollToSection }) => {
                 ))}
             </div>
 
-            {/* Glass Icon Bar (Floating next to dots) - Redesigned */}
-            <div className="fixed left-24 top-1/2 transform -translate-y-1/2 z-50 hidden lg:flex flex-col gap-6 p-4 rounded-3xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl">
+            {/* Glass Icon Bar - Compact on laptop (left-6), Spacious on ultra-wide (left-24) */}
+            <div className="fixed left-6 min-[2050px]:left-24 top-1/2 transform -translate-y-1/2 z-50 hidden lg:flex flex-col gap-6 p-4 rounded-3xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl transition-all duration-500">
                 {sections.map((section, index) => {
                     const Icon = icons[index] || Home;
                     const isActive = activeSection === index;
