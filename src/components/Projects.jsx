@@ -4,6 +4,14 @@ import { Github, ExternalLink, ArrowUpRight } from 'lucide-react';
 
 const projects = [
     {
+        title: "Kirby's Ride Registry",
+        description: "Full-stack platform for users to upload, manage, and rate vehicles. Over 8,000 uploads and 3,000 active users.",
+        tags: ["Node.js", "Supabase", "Cloudinary"],
+        github: "",
+        demo: "https://kirbyrideregistry.com",
+        image: "/kirby.jpg",
+    },
+    {
         title: "Blackjack Game",
         description: "Blackjack game for the M5StickC Plus2 with a betting system, GUI, and automated dealer.",
         tags: ["C++", "Arduino"],
@@ -35,15 +43,7 @@ const projects = [
         demo: "https://erick-caballero.github.io/voxeleditor/",
         image: "/voxeleditor.jpg",
     },
-    // Additional Projects for "Show More" demo
-    {
-        title: "Coming Soon",
-        description: "I'll have to get back to you honestly.",
-        tags: ["IDK"],
-        github: "https://github.com/erick-caballero",
-        demo: "#",
-        image: "/ai-chatbot.jpg",
-    }/*,
+    /*
     {
         title: "E-Commerce Platform",
         description: "Full-stack shopping experience with Stripe integration.",
@@ -89,14 +89,16 @@ function ProjectCard({ project, index }) {
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500" />
 
                 {/* Floating Action Button */}
-                <a
-                    href={project.github}
-                    target="_blank"
-                    className="absolute top-4 right-4 p-3 bg-white text-black rounded-full opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:scale-110"
-                    data-hover-target="true"
-                >
-                    <Github size={40} />
-                </a>
+                {project.github && (
+                    <a
+                        href={project.github}
+                        target="_blank"
+                        className="absolute top-4 right-4 p-3 bg-white text-black rounded-full opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:scale-110"
+                        data-hover-target="true"
+                    >
+                        <Github size={40} />
+                    </a>
+                )}
             </div>
 
             <div className="flex-1 flex flex-col">
@@ -108,10 +110,11 @@ function ProjectCard({ project, index }) {
                         <a
                             href={project.demo}
                             target="_blank"
-                            className="text-white/50 hover:text-white transition-colors"
+                            className="flex items-center gap-2 text-white font-bold bg-white/10 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all"
                             data-hover-target="true"
                         >
-                            <ArrowUpRight size={28} />
+                            <span>Visit Site</span>
+                            <ArrowUpRight size={20} />
                         </a>
                     )}
                 </div>

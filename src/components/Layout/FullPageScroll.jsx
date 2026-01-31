@@ -51,9 +51,9 @@ const FullPageScroll = ({ children }) => {
                 {sections.map((child, index) => (
                     <section
                         key={index}
-                        className="min-h-screen lg:h-screen w-full lg:snap-start lg:snap-always flex items-center justify-center relative overflow-hidden"
+                        className="min-h-screen lg:h-screen w-full lg:snap-start lg:snap-always relative overflow-hidden"
                     >
-                        {child}
+                        {React.cloneElement(child, { scrollToSection })}
                     </section>
                 ))}
             </div>

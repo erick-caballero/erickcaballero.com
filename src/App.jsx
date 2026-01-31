@@ -62,18 +62,10 @@ export default function App() {
                         </div>
 
                         <FullPageScroll>
-                            <div label="Home" className="w-full h-full">
-                                <Hero />
-                            </div>
-                            <div label="Projects" className="w-full h-full">
-                                <Projects />
-                            </div>
-                            <div label="Experience" className="w-full h-full">
-                                <SkillsAndExperience />
-                            </div>
-                            <div label="Contact" className="w-full h-full">
-                                <Contact />
-                            </div>
+                            <Hero label="Home" />
+                            <Projects label="Projects" />
+                            <SkillsAndExperience label="Experience" />
+                            <Contact label="Contact" />
                         </FullPageScroll>
 
                         <div className="block lg:hidden">
